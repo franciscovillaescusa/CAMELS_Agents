@@ -144,8 +144,10 @@ else:
         with st.chat_message(message["role"]):
             if message["type"]=="md":
                 st.markdown(message["content"])
-            else:
+            elif message["type"]=="text":
                 st.text(message["content"])
+            else:
+                st.latex(message["content"])
 
 # Submit button in the sidebar
 if submit_button:
