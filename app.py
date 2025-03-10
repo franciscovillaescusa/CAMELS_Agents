@@ -68,7 +68,7 @@ st.markdown(
 )
 
 ##### Sidebar UI #####
-st.sidebar.image('logo.png')
+st.sidebar.image('images/logo.png')
 st.write("")
 st.sidebar.title("Agent Capabilities")
 
