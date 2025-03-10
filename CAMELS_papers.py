@@ -1,6 +1,6 @@
 from parameters import GraphState
 from langchain_core.runnables import RunnableConfig
-from database import db_papers
+from database import get_db_CAMELS_papers
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
 from pydantic import BaseModel, Field
 from llms import llm2
@@ -18,6 +18,7 @@ def CAMELS_papers(state: GraphState, config: RunnableConfig):
     bad_matches, good_matches  = [], ["**Relevant papers:**\n"]
         
     # get the k papers whose abstract match the query more closely
+    db_papers = get_db_CAMELS_papers()
     results = db_papers.similarity_search_with_score(state["query"], k=10)
     st.session_state.messages.append({"role": "user", "content": state["query"],
                                       "type":"md"})

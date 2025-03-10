@@ -5,7 +5,7 @@ from langchain_chroma import Chroma
 from llms import llm, llm2, embeddings
 from prompts import *
 import os
-from database import db_docs
+from database import get_db_CAMELS_docs
 from langgraph.graph.message import add_messages
 import streamlit as st
 
@@ -22,8 +22,9 @@ def question(state: GraphState, config: RunnableConfig):
 
 # Given a query, this node will search the CAMELS docs to find an answer
 def CAMELS_docs(state: GraphState, config: RunnableConfig):
-
+    
     # get the documents more similar to the query
+    db_docs = get_db_CAMELS_docs()
     results = db_docs.similarity_search_with_relevance_scores(state["query"], k=10)
 
     # get the context for the LLM call\
