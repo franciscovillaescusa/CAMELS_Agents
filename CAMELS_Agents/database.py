@@ -1,4 +1,4 @@
-from langchain.document_loaders import DirectoryLoader
+from langchain_community.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from parameters import GraphState, initial_graph_state
 from langchain_chroma import Chroma

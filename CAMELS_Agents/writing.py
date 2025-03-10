@@ -35,7 +35,7 @@ Text: {result.content}
     else:
     
         # get the CAMELS section
-        with open('CAMELS_section.txt', 'r') as file:
+        with open('../Input_Text/CAMELS_section.txt', 'r') as file:
             text = file.read()
 
         # generate new section

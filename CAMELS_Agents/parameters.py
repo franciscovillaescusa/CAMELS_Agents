@@ -13,11 +13,11 @@ chunk_overlap = 300
 
 # Chroma parameters for CAMELS docs
 collection_name_docs   = 'CAMELS'
-persist_directory_docs = "docs_database"
+persist_directory_docs = "../docs_database"
 
 # Chroma parameters for CAMELS papers
 collection_name_papers   = 'CAMELS_papers'
-persist_directory_papers = "papers_database/papers_db"
+persist_directory_papers = "../papers_database/papers_db"
 ###########################################################################################
 
 # class for writing CAMELS section

@@ -7,7 +7,7 @@ import tiktoken
 # streamlit configuration
 st.set_page_config(
     page_title="CAMELS Agent",     # Title of the app (shown in browser tab)
-    page_icon='images/logo.png',      # Favicon (icon in browser tab)
+    page_icon='../images/logo.png',      # Favicon (icon in browser tab)
     layout="wide",   # Page layout (options: "centered" or "wide")
     initial_sidebar_state="auto",  # Sidebar behavior
     menu_items=None      # Custom options for the app menu
@@ -68,7 +68,7 @@ st.markdown(
 )
 
 ##### Sidebar UI #####
-st.sidebar.image('images/logo.png')
+st.sidebar.image('../images/logo.png')
 st.write("")
 st.sidebar.title("Agent Capabilities")
 

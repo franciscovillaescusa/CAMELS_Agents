@@ -3,8 +3,11 @@ tiktoken
 langchain
 langchain-chroma
 langchain-groq
+langchain-community
 langchain-google-vertexai
 langchain-google-genai
+langgraph
+langgraph-checkpoint-sqlite
 pydantic
 dotenv
 requests
