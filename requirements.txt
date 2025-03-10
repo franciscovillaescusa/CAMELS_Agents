@@ -1,0 +1,11 @@
+streamlit
+tiktoken
+langchain
+langchain-chroma
+langchain-groq
+langchain-google-vertexai
+langchain-google-genai
+pydantic
+dotenv
+requests
+typing-extensions

@@ -1,0 +1,4 @@
+include *.env
+include *.md
+recursive-include your_package_name *.py
+recursive-include your_package_name *.json
