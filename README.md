@@ -1,4 +1,5 @@
-<img src="images/logo.png" alt="Sample Image" width="300">
+<img src="images/logo.png" alt="CAMELS Agents" width="400" style="display: block; margin: auto;">
+
 
 AI agents to help working with CAMELS (Cosmology and Astrophysics with MachinE Learning Simulations) data.
 
