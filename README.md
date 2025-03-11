@@ -47,6 +47,14 @@ fill the missing blocks with your API keys.
 Once you have complete the above steps you can run the code with
 `streamlit run app.py`
 
+### CAMELS section
+
+The original text describing CAMELS is located in `Input_Text/CAMELS_section.txt`. Modify that section if you want a different initial description.
+
+### CAMELS papers
+
+The agents are able to identify CAMELS papers for a given query; for instance to see if an idea has been already carried out. The list of CAMELS papers is located in `Input_Text/CAMELS_papers_links.py`. Add any paper you want to the list for the agents to work with them. One the list is updated, go to `CAMELS_Agents` folder and run `python update_db_CAMELS_papers.py` to add those papers to the Chroma database.
+
 ## Team:
 
 - Francisco Villaescusa-Navarro (Flatiron)

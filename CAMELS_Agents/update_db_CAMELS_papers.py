@@ -88,67 +88,6 @@ if __name__ == "__main__":
     main()
 
         
-#num_papers_db = db._collection.count()
-#print("The database contains %d papers"%num_papers_db)
-
-# get the content in the database
-#papers_db = db.get()
-
-# get the links of the papers in the database
-#paper_links = []
-#for i in range(num_papers_db):
-#    paper_links.append(papers_db["metadatas"][i]['link'])
-
-"""
-# do a loop over the different papers
-for i,link in enumerate(links):
-    
-    # open the paper and read its first pages
-    r    = requests.get(link)
-    data = r.content
-    doc  = pymupdf.Document(stream=data)
-    if link in ['https://arxiv.org/pdf/2201.04142', 'https://arxiv.org/pdf/2201.01300',
-                'https://arxiv.org/pdf/2302.14101', 'https://arxiv.org/pdf/2310.04499',
-                'https://arxiv.org/pdf/2310.15234', 'https://arxiv.org/pdf/2311.01588',
-    ]:
-        text = pymupdf4llm.to_markdown(doc, pages=[0,1])
-    else:
-        text = pymupdf4llm.to_markdown(doc, pages=[0])
-
-
-    # get the title and the abstract from the read pages
-    PROMPT1 = title_abstract_from_paper_prompt(text)
-    abstract = llm2.invoke(PROMPT1)
-    Title, Abstract = clean_llm_response(abstract)
-
-    print('###################################################################')
-    print(text)
-    print('Title: %s'%Title)
-    print('Abstract: %s'%Abstract)
-    correct = input("Does this looks correct? (y/n)")
-    print('###################################################################')
-
-    # in case it doesnt work, make a new call to the LLM with a better prompt
-    while correct=='n':
-        new_prompt = input("Lets call the LLM again. Please write a new prompt that will get the correct title and abstract. For instance this. Extract the title and the abstract from the text. The abstract start with Abstract and ends with better models for the future.>> ")
-        PROMPT3 = [HumanMessage(content=f"{new_prompt} Text: {text}")]
-        abstract = llm.invoke(PROMPT3)
-        Title, Abstract = clean_llm_response(abstract)
-        print('Title: %s'%Title)
-        print('Abstract: %s'%Abstract)
-        correct = input("Does this looks correct? (y/n)")
-"""
-    
-
-
-
-
-
-
-
-
-
-
 
 
 
