@@ -12,6 +12,7 @@ from CAMELS_documentation import *
 from CAMELS_papers import *
 from literature import semantic_search
 from parameters import config
+from coding import coding_node
     
 
 # Define the graph
@@ -23,6 +24,7 @@ builder.add_node("CAMELS_papers", CAMELS_papers)
 builder.add_node("standard_llm", standard_llm)
 builder.add_node("CAMELS_docs",  CAMELS_docs)
 builder.add_node("semantic_search", semantic_search)
+builder.add_node("coding_node", coding_node)
 
 # Define edges: these determine how the control flow moves
 builder.add_conditional_edges(START, general_router)
@@ -31,6 +33,7 @@ builder.add_edge("CAMELS_papers", END)
 builder.add_edge("CAMELS_docs", END)
 builder.add_edge("semantic_search", END)
 builder.add_edge("standard_llm", END)
+builder.add_edge("coding_node", END)
 
 # compile graph
 memory = MemorySaver()

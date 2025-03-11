@@ -147,7 +147,7 @@ else:
             elif message["type"]=="text":
                 st.text(message["content"])
             else:
-                st.latex(message["content"])
+                st.write(message["content"])
 
 # Submit button in the sidebar
 if submit_button:
@@ -211,7 +211,7 @@ if st.session_state.get("submitted", False):  # Only show content if submitted
             st.rerun()  # Refresh UI to display new messages
             
     # other options
-    if option in [2,3,4,6]:
+    if option in [2,3,4,5,6]:
 
         Text, disabled = "Type your query here", False
         feedback = st.chat_input(Text, key='hidden', disabled=disabled)

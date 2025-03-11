@@ -4,7 +4,7 @@ from langchain_core.runnables import RunnableConfig
 
 
 # This router will direct the LLM to the corresponding node
-def general_router(state: GraphState) -> Literal["write_section_node", "CAMELS_papers", "CAMELS_docs", "semantic_search", "standard_llm", "__end__"]:
+def general_router(state: GraphState) -> Literal["write_section_node", "CAMELS_papers", "CAMELS_docs", "semantic_search", "coding_node","standard_llm", "__end__"]:
     
     if   state['option']==1:  return "write_section_node"
     elif state['option']==2:  return "CAMELS_docs"

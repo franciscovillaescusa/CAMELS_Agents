@@ -1,0 +1,340 @@
+Snapshots. The simulation snapshots are denoted as snapshot_X.hdf5, where X goes from 000 (corresponding to redshift z=15) to 091 (corresponding to redshift z=0). These files contain the positions, velocities, IDs and other properties of the dark matter particles and the fluid resolution elements of the simulation. A typical snapshot will contain these fields:
+
+h5ls -r Sims/IllustrisTNG/L25n256/CV/CV_14/snapshot_024.hdf5
+/                        Group
+/Config                  Group
+/Header                  Group
+/Parameters              Group
+/PartType0               Group
+/PartType0/Coordinates   Dataset {15879574, 3}
+/PartType0/Density       Dataset {15879574}
+/PartType0/ElectronAbundance Dataset {15879574}
+/PartType0/EnergyDissipation Dataset {15879574}
+/PartType0/GFM_AGNRadiation Dataset {15879574}
+/PartType0/GFM_CoolingRate Dataset {15879574}
+/PartType0/GFM_Metallicity Dataset {15879574}
+/PartType0/GFM_Metals    Dataset {15879574, 10}
+/PartType0/GFM_MetalsTagged Dataset {15879574, 6}
+/PartType0/GFM_WindDMVelDisp Dataset {15879574}
+/PartType0/GFM_WindHostHaloMass Dataset {15879574}
+/PartType0/InternalEnergy Dataset {15879574}
+/PartType0/Machnumber    Dataset {15879574}
+/PartType0/MagneticField Dataset {15879574, 3}
+/PartType0/MagneticFieldDivergence Dataset {15879574}
+/PartType0/Masses        Dataset {15879574}
+/PartType0/NeutralHydrogenAbundance Dataset {15879574}
+/PartType0/ParticleIDs   Dataset {15879574}
+/PartType0/Potential     Dataset {15879574}
+/PartType0/StarFormationRate Dataset {15879574}
+/PartType0/SubfindDMDensity Dataset {15879574}
+/PartType0/SubfindDensity Dataset {15879574}
+/PartType0/SubfindHsml   Dataset {15879574}
+/PartType0/SubfindVelDisp Dataset {15879574}
+/PartType0/Velocities    Dataset {15879574, 3}
+/PartType1               Group
+/PartType1/Coordinates   Dataset {16777216, 3}
+/PartType1/ParticleIDs   Dataset {16777216}
+/PartType1/Potential     Dataset {16777216}
+/PartType1/SubfindDMDensity Dataset {16777216}
+/PartType1/SubfindDensity Dataset {16777216}
+/PartType1/SubfindHsml   Dataset {16777216}
+/PartType1/SubfindVelDisp Dataset {16777216}
+/PartType1/Velocities    Dataset {16777216, 3}
+/PartType4               Group
+/PartType4/BirthPos      Dataset {524754, 3}
+/PartType4/BirthVel      Dataset {524754, 3}
+/PartType4/Coordinates   Dataset {524754, 3}
+/PartType4/GFM_InitialMass Dataset {524754}
+/PartType4/GFM_Metallicity Dataset {524754}
+/PartType4/GFM_Metals    Dataset {524754, 10}
+/PartType4/GFM_MetalsTagged Dataset {524754, 6}
+/PartType4/GFM_StellarFormationTime Dataset {524754}
+/PartType4/GFM_StellarPhotometrics Dataset {524754, 8}
+/PartType4/Masses        Dataset {524754}
+/PartType4/ParticleIDs   Dataset {524754}
+/PartType4/Potential     Dataset {524754}
+/PartType4/SubfindDMDensity Dataset {524754}
+/PartType4/SubfindDensity Dataset {524754}
+/PartType4/SubfindHsml   Dataset {524754}
+/PartType4/SubfindVelDisp Dataset {524754}
+/PartType4/Velocities    Dataset {524754, 3}
+/PartType5               Group
+/PartType5/BH_BPressure  Dataset {1257}
+/PartType5/BH_CumEgyInjection_QM Dataset {1257}
+/PartType5/BH_CumEgyInjection_RM Dataset {1257}
+/PartType5/BH_CumMassGrowth_QM Dataset {1257}
+/PartType5/BH_CumMassGrowth_RM Dataset {1257}
+/PartType5/BH_Density    Dataset {1257}
+/PartType5/BH_HostHaloMass Dataset {1257}
+/PartType5/BH_Hsml       Dataset {1257}
+/PartType5/BH_Mass       Dataset {1257}
+/PartType5/BH_Mdot       Dataset {1257}
+/PartType5/BH_MdotBondi  Dataset {1257}
+/PartType5/BH_MdotEddington Dataset {1257}
+/PartType5/BH_Pressure   Dataset {1257}
+/PartType5/BH_Progs      Dataset {1257}
+/PartType5/BH_U          Dataset {1257}
+/PartType5/Coordinates   Dataset {1257, 3}
+/PartType5/Masses        Dataset {1257}
+/PartType5/ParticleIDs   Dataset {1257}
+/PartType5/Potential     Dataset {1257}
+/PartType5/SubfindDMDensity Dataset {1257}
+/PartType5/SubfindDensity Dataset {1257}
+/PartType5/SubfindHsml   Dataset {1257}
+/PartType5/SubfindVelDisp Dataset {1257}
+/PartType5/Velocities    Dataset {1257, 3}
+
+the snapshots contain different groups and blocks:
+
+Header. This group contains different properties of the simulations such as its box size, number of particles, value of the cosmological parameters…etc.
+PartType0. This group contains the properties of the gas particles.
+PartType1. This group contains the properties of the dark matter particles.
+PartType2. This group contains low-resolution dark matter particles, only relevant in zoom-in simulations.
+PartType4. This group contains the properties of the star particles.
+PartType5. This group contains the properties of the black hole particles.
+
+This code shows an example on how to read these files:
+
+import numpy as np
+import h5py
+import hdf5plugin
+
+# snapshot name
+snapshot = 'Sims/IllustrisTNG/L25n256/CV/CV_14/snapshot_014.hdf5'
+
+# open file
+f = h5py.File(snapshot, 'r')
+
+# read different attributes of the header
+BoxSize      = f['Header'].attrs[u'BoxSize']/1e3 #Mpc/h
+redshift     = f['Header'].attrs[u'Redshift']
+h            = f['Header'].attrs[u'HubbleParam']
+Masses       = f['Header'].attrs[u'MassTable']*1e10 #Msun/h
+Np           = f['Header'].attrs[u'NumPart_Total']
+Omega_m      = f['Header'].attrs[u'Omega0']
+Omega_L      = f['Header'].attrs[u'OmegaLambda']
+Omega_b      = f['Header'].attrs[u'OmegaBaryon']
+scale_factor = f['Header'].attrs[u'Time'] #scale factor
+
+# read gas positions
+pos_g = f['PartType0/Coordinates'][:]/1e3  #positions in Mpc/h
+
+# read dark matter velocities; need to multiply by sqrt(a) to get peculiar velocities
+vel_c = f['PartType1/Velocities'][:]*np.sqrt(scale_factor) #velocities in km/s
+
+# read star masses
+mass_s = f['PartType4/Masses'][:]*1e10  #Masses in Msun/h
+
+# read black hole positions and the gravitational potential at their locations
+pos_bh       = f['PartType5/Coordinates'][:]/1e3  #positions in Mpc/h
+potential_bh = f['PartType5/Potential'][:]/scale_factor #potential in (km/s)^2
+
+
+# close file
+f.close()
+
+The initial conditions are snapshots that contain the positions, velocities, and IDs of the dark matter and gas particles at redshift z=127, the starting time of the simulations. One example of how to read these files is this:
+
+import numpy as np
+import readgadget
+
+# name of the snapshot
+snapshot = '/mnt/ceph/users/camels/Sims/Astrid/L25n256/LH/LH_156/ICs/ics'
+
+# read snapshot header
+header   = readgadget.header(snapshot)
+BoxSize  = header.boxsize/1e3  #Mpc/h
+Nall     = header.nall         #Total number of particles
+Masses   = header.massarr*1e10 #Masses of the particles in Msun/h
+Omega_m  = header.omega_m      #value of Omega_m
+Omega_l  = header.omega_l      #value of Omega_l
+h        = header.hubble       #value of h
+redshift = header.redshift     #redshift of the snapshot
+Hubble   = 100.0*np.sqrt(Omega_m*(1.0+redshift)**3+Omega_l)#Value of H(z) in km/s/(Mpc/h)
+
+# read positions, velocities and IDs of the gas particles
+ptype = [0] #gas is particle type 0
+pos_g = readgadget.read_block(snapshot, "POS ", ptype)/1e3 #positions in Mpc/h
+vel_g = readgadget.read_block(snapshot, "VEL ", ptype)     #peculiar velocities in km/s
+ids_g = readgadget.read_block(snapshot, "ID  ", ptype)-1   #IDs starting from 0
+
+# read positions, velocities and IDs of the dark matter particles
+ptype = [1] #dark matter is particle type 1
+pos_c = readgadget.read_block(snapshot, "POS ", ptype)/1e3 #positions in Mpc/h
+vel_c = readgadget.read_block(snapshot, "VEL ", ptype)     #peculiar velocities in km/s
+ids_c = readgadget.read_block(snapshot, "ID  ", ptype)-1   #IDs starting from 0
+
+
+Subfind catalogs. These files contain the halo and subhalo/galaxy catalogs. Files are denoted as groups_X.hdf5, where X goes from 000 (corresponding to redshift z=15) to 091 (corresponding to redshift z=0). These files contain these fields:
+
+>> h5ls -r SIMBA/CV_5/groups_031.hdf5
+/                        Group
+/Config                  Group
+/Group                   Group
+/Group/GroupBHMass       Dataset {32272}
+/Group/GroupBHMdot       Dataset {32272}
+/Group/GroupCM           Dataset {32272, 3}
+/Group/GroupFirstSub     Dataset {32272}
+/Group/GroupGasMetalFractions Dataset {32272, 11}
+/Group/GroupGasMetallicity Dataset {32272}
+/Group/GroupLen          Dataset {32272}
+/Group/GroupLenType      Dataset {32272, 6}
+/Group/GroupMass         Dataset {32272}
+/Group/GroupMassType     Dataset {32272, 6}
+/Group/GroupNsubs        Dataset {32272}
+/Group/GroupPos          Dataset {32272, 3}
+/Group/GroupSFR          Dataset {32272}
+/Group/GroupStarMetalFractions Dataset {32272, 11}
+/Group/GroupStarMetallicity Dataset {32272}
+/Group/GroupVel          Dataset {32272, 3}
+/Group/GroupWindMass     Dataset {32272}
+/Group/Group_M_Crit200   Dataset {32272}
+/Group/Group_M_Crit500   Dataset {32272}
+/Group/Group_M_Mean200   Dataset {32272}
+/Group/Group_M_TopHat200 Dataset {32272}
+/Group/Group_R_Crit200   Dataset {32272}
+/Group/Group_R_Crit500   Dataset {32272}
+/Group/Group_R_Mean200   Dataset {32272}
+/Group/Group_R_TopHat200 Dataset {32272}
+/Header                  Group
+/IDs                     Group
+/IDs/ID                  Dataset {14575639}
+/Parameters              Group
+/Subhalo                 Group
+/Subhalo/SubhaloBHMass   Dataset {22315}
+/Subhalo/SubhaloBHMdot   Dataset {22315}
+/Subhalo/SubhaloBfldDisk Dataset {22315}
+/Subhalo/SubhaloBfldHalo Dataset {22315}
+/Subhalo/SubhaloCM       Dataset {22315, 3}
+/Subhalo/SubhaloGasMetalFractions Dataset {22315, 11}
+/Subhalo/SubhaloGasMetalFractionsHalfRad Dataset {22315, 11}
+/Subhalo/SubhaloGasMetalFractionsMaxRad Dataset {22315, 11}
+/Subhalo/SubhaloGasMetalFractionsSfr Dataset {22315, 11}
+/Subhalo/SubhaloGasMetalFractionsSfrWeighted Dataset {22315, 11}
+/Subhalo/SubhaloGasMetallicity Dataset {22315}
+/Subhalo/SubhaloGasMetallicityHalfRad Dataset {22315}
+/Subhalo/SubhaloGasMetallicityMaxRad Dataset {22315}
+/Subhalo/SubhaloGasMetallicitySfr Dataset {22315}
+/Subhalo/SubhaloGasMetallicitySfrWeighted Dataset {22315}
+/Subhalo/SubhaloGrNr     Dataset {22315}
+/Subhalo/SubhaloHalfmassRad Dataset {22315}
+/Subhalo/SubhaloHalfmassRadType Dataset {22315, 6}
+/Subhalo/SubhaloIDMostbound Dataset {22315}
+/Subhalo/SubhaloLen      Dataset {22315}
+/Subhalo/SubhaloLenType  Dataset {22315, 6}
+/Subhalo/SubhaloMass     Dataset {22315}
+/Subhalo/SubhaloMassInHalfRad Dataset {22315}
+/Subhalo/SubhaloMassInHalfRadType Dataset {22315, 6}
+/Subhalo/SubhaloMassInMaxRad Dataset {22315}
+/Subhalo/SubhaloMassInMaxRadType Dataset {22315, 6}
+/Subhalo/SubhaloMassInRad Dataset {22315}
+/Subhalo/SubhaloMassInRadType Dataset {22315, 6}
+/Subhalo/SubhaloMassType Dataset {22315, 6}
+/Subhalo/SubhaloParent   Dataset {22315}
+/Subhalo/SubhaloPos      Dataset {22315, 3}
+/Subhalo/SubhaloSFR      Dataset {22315}
+/Subhalo/SubhaloSFRinHalfRad Dataset {22315}
+/Subhalo/SubhaloSFRinMaxRad Dataset {22315}
+/Subhalo/SubhaloSFRinRad Dataset {22315}
+/Subhalo/SubhaloSpin     Dataset {22315, 3}
+/Subhalo/SubhaloStarMetalFractions Dataset {22315, 11}
+/Subhalo/SubhaloStarMetalFractionsHalfRad Dataset {22315, 11}
+/Subhalo/SubhaloStarMetalFractionsMaxRad Dataset {22315, 11}
+/Subhalo/SubhaloStarMetallicity Dataset {22315}
+/Subhalo/SubhaloStarMetallicityHalfRad Dataset {22315}
+/Subhalo/SubhaloStarMetallicityMaxRad Dataset {22315}
+/Subhalo/SubhaloStellarPhotometrics Dataset {22315, 8}
+/Subhalo/SubhaloStellarPhotometricsMassInRad Dataset {22315}
+/Subhalo/SubhaloStellarPhotometricsRad Dataset {22315}
+/Subhalo/SubhaloVel      Dataset {22315, 3}
+/Subhalo/SubhaloVelDisp  Dataset {22315}
+/Subhalo/SubhaloVmax     Dataset {22315}
+/Subhalo/SubhaloVmaxRad  Dataset {22315}
+/Subhalo/SubhaloWindMass Dataset {22315}
+
+The catalogs contain two main groups:
+
+Group. This group contains the properties of the halos.
+
+Subhalos. This group contains the properties of the subhalos. Galaxies are generally considered to be subhalos with stellar mass larger than 0.
+
+One example on how to read these files is this:
+
+import numpy as np
+import h5py
+
+# catalog name
+catalog = 'SIMBA/CV_5/groups_090.hdf5'
+
+# value of the scale factor
+scale_factor = 1.0
+
+# open the catalogue
+f = h5py.File(catalog, 'r')
+
+# read the positions, velocities and masses of the FoF halos
+pos_h  = f['Group/GroupPos'][:]/1e3           #positions in Mpc/h
+vel_h  = f['Group/GroupVel'][:]/scale_factor  #velocities in km/s
+mass_h = f['Group/GroupMass'][:]*1e10         #masses in Msun/h
+
+# read the positions, black hole masses and stellar masses of the subhalos/galaxies
+pos_g  = f['Subhalo/SubhaloPos'][:]/1e3         #positions in Mpc/h
+BH_g   = f['Subhalo/SubhaloBHMass'][:]*1e10     #black-hole masses in Msun/h
+M_star = f['Subhalo/SubhaloMassType'][:,4]*1e10 #stellar masses in Msun/h
+
+# close file
+f.close()
+
+Power spectra. We would like to use the Pylians3 library to compute power spectra.
+
+This is an example on how to compute a 3D density field from the positions and masses of some particles
+
+import numpy as np
+import MAS_library as MASL
+
+# number of particles
+Np = 128**3
+
+# density field parameters
+grid    = 128    #the 3D field will have grid x grid x grid voxels
+BoxSize = 1000.0 #Mpc/h ; size of box
+MAS     = 'CIC'  #mass-assigment scheme
+verbose = True   #print information on progress
+
+# define 3D density field
+delta = np.zeros((grid,grid,grid), dtype=np.float32)
+
+# construct 3D density field
+MASL.MA(pos, delta, BoxSize, MAS, W=mass, verbose=verbose)
+
+# at this point, delta contains the effective gas mass in each voxel
+# now compute overdensity and density constrast
+delta /= np.mean(delta, dtype=np.float64);  delta -= 1.0
+
+And this is how to compute the power spectrum of them
+
+import Pk_library as PKL
+
+# compute power spectrum
+Pk = PKL.Pk(delta, BoxSize, axis, MAS, threads, verbose)
+
+# Pk is a python class containing the 1D, 2D and 3D power spectra, that can be retrieved as
+
+# 1D P(k)
+k1D      = Pk.k1D
+Pk1D     = Pk.Pk1D
+Nmodes1D = Pk.Nmodes1D
+
+# 2D P(k)
+kpar     = Pk.kpar
+kper     = Pk.kper
+Pk2D     = Pk.Pk2D
+Nmodes2D = Pk.Nmodes2D
+
+# 3D P(k)
+k       = Pk.k3D
+Pk0     = Pk.Pk[:,0] #monopole
+Pk2     = Pk.Pk[:,1] #quadrupole
+Pk4     = Pk.Pk[:,2] #hexadecapole
+Pkphase = Pk.Pkphase #power spectrum of the phases
+Nmodes  = Pk.Nmodes3D

@@ -51,3 +51,13 @@ def title_abstract_from_paper_prompt(text):
         return [SystemMessage(content="You are a research assistant"), HumanMessage(content=f"""Given the text below, get the title and abstract from it. The title appears before the affiliations. The abstract is all the text located between the keywords and the end of the affiliations. If there are no keywords, get the text located between the introduction and the end of the affiliations.
 
 Text: {text}""")]        
+
+
+# prompt for the coding node
+def coding_prompt(query, memory, instructions):
+
+        return [SystemMessage(content="You are a coding assistant. Write code to address the query but take into account the instructions for CAMELS. Briefly explain the code you write.")] + memory + [HumanMessage(content=f"""
+CAMELS instructions: {instructions}
+
+query: {query}
+""")]
