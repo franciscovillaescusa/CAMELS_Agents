@@ -31,3 +31,23 @@ Context:
 
 Question:
 {query}""")]
+
+
+# prompt to get title and abstract from a text
+def title_abstract_prompt(text):
+
+        return [HumanMessage(content=f"""Given the below text, get the title and the abstract. Return and output like this:
+
+Title='The title of the text' 
+Abstract='The abstract of the text'
+
+Text: {text}
+""")]
+
+
+# prompt to get the title and abstract from a pdf extracted text
+def title_abstract_from_paper_prompt(text):
+
+        return [SystemMessage(content="You are a research assistant"), HumanMessage(content=f"""Given the text below, get the title and abstract from it. The title appears before the affiliations. The abstract is all the text located between the keywords and the end of the affiliations. If there are no keywords, get the text located between the introduction and the end of the affiliations.
+
+Text: {text}""")]        
