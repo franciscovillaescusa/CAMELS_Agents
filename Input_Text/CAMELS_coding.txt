@@ -321,20 +321,20 @@ Pk = PKL.Pk(delta, BoxSize, axis, MAS, threads, verbose)
 # Pk is a python class containing the 1D, 2D and 3D power spectra, that can be retrieved as
 
 # 1D P(k)
-k1D      = Pk.k1D
-Pk1D     = Pk.Pk1D
-Nmodes1D = Pk.Nmodes1D
+k1D      = Pk.k1D  #only use if asked for the 1D power spectrum
+Pk1D     = Pk.Pk1D #only use if asked for the 1D power spectrum
+Nmodes1D = Pk.Nmodes1D #only use if asked for the 1D power spectrum
 
 # 2D P(k)
-kpar     = Pk.kpar
-kper     = Pk.kper
-Pk2D     = Pk.Pk2D
-Nmodes2D = Pk.Nmodes2D
+kpar     = Pk.kpar  #only use if asked for the 2D power spectrum
+kper     = Pk.kper  #only use if asked for the 2D power spectrum
+Pk2D     = Pk.Pk2D  #only use if asked for the 2D power spectrum
+Nmodes2D = Pk.Nmodes2D  #only use if asked for the 2D power spectrum
 
 # 3D P(k)
-k       = Pk.k3D
-Pk0     = Pk.Pk[:,0] #monopole
-Pk2     = Pk.Pk[:,1] #quadrupole
-Pk4     = Pk.Pk[:,2] #hexadecapole
+k       = Pk.k3D    #use when asked for power spectrum in general
+Pk0     = Pk.Pk[:,0] #monopole. use if asked for power spectrum in general
+Pk2     = Pk.Pk[:,1] #quadrupole. use only if asked for quadrupole
+Pk4     = Pk.Pk[:,2] #hexadecapole. use only if asked for hexadecapole
 Pkphase = Pk.Pkphase #power spectrum of the phases
-Nmodes  = Pk.Nmodes3D
+Nmodes  = Pk.Nmodes3D #use when asked for power spectrum in general
