@@ -5,7 +5,7 @@ import pymupdf, pymupdf4llm
 from langchain_core.messages import HumanMessage
 from langchain_core.documents import Document
 from prompts import title_abstract_prompt, title_abstract_from_paper_prompt
-from llms import llm2, embeddings
+from llms import get_llm
 from database import get_db_CAMELS_papers
 sys.path.append("../Input_Text")
 from CAMELS_paper_links import links
@@ -17,7 +17,7 @@ def clean_sentence(sentence):
 
 def clean_llm_response(abstract):
     """Cleans the LLM response and extracts title and abstract."""
-    response = llm2.invoke(title_abstract_prompt(abstract.content)).content
+    response = model.invoke(title_abstract_prompt(abstract.content)).content
     response = clean_sentence(response)
 
     title    = re.search(r"Title='(.*?)'",    response)
@@ -41,7 +41,7 @@ def prompt_for_correction(text):
         print(f'Extracted Text:\n{text}')
         new_prompt = input("Provide a refined prompt for better extraction: ")
         prompt = [HumanMessage(content=f"{new_prompt} Text: {text}")]
-        abstract = llm.invoke(prompt)
+        abstract = model.invoke(prompt)
         title, abstract = clean_llm_response(abstract)
         print(f'Title: {title}\nAbstract: {abstract}')
         if input("Is this correct? (y/n): ") == 'y':
@@ -52,6 +52,9 @@ def main():
     existing_links = [metadata['link'] for metadata in db.get().get('metadatas', [])]
     print(f"The database contains {len(existing_links)} papers")
 
+    # get the LLM model
+    model = get_llm({"state":{"model":"Gemini-2-flash", "temperature":0.5}})
+    
     # do a loop over all papers in the file
     for link in links:
 
@@ -70,7 +73,7 @@ def main():
             pages = [0]
 
         text = process_document(link, pages)
-        title, abstract = clean_llm_response(llm2.invoke(title_abstract_from_paper_prompt(text)))
+        title, abstract = clean_llm_response(model.invoke(title_abstract_from_paper_prompt(text)))
         print(f"Title: {title}\nAbstract: {abstract}")
 
         # check if the extraction was succesful

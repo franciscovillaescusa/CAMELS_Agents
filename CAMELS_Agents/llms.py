@@ -1,6 +1,7 @@
 from langchain_groq import ChatGroq
 from langchain_google_vertexai import VertexAIEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
 from parameters import GraphState
 from langchain_core.runnables import RunnableConfig
@@ -18,8 +19,26 @@ for var in required_env_vars:
     if not os.getenv(var):
         st.error(f"Missing environment variable: {var}")
 
+
+# This function gets the llm model
+def get_llm(state):
+
+    # get the model and its temperature
+    model       = state['llm']['model']
+    temperature = state['llm']['temperature']
+    
+    if   model=='Gemini-2-flash':
+        return ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=temperature)
+    elif model=='ChatGPT-4o':
+        return ChatOpenAI(model="4o", temperature=temperature)
+    elif model=='LLama3-70b':
+        return ChatGroq(model="llama3-70b-8192", temperature=temperature)
+    else:
+        st.error("Wrong model choosen!")
+        st.stop()
+
+#llm2 = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.5)
 #llm2 = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
-llm2 = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.5)
 #llm2 = ChatGoogleGenerativeAI(model="gemini-2.0-flash-thinking-exp-01-21", temperature=0)
 #llm  = ChatGroq(model="llama3-groq-8b-8192-tool-use-preview", temperature=0)
 #llm  = ChatGroq(model="llama3-8b-8192", temperature=0)
@@ -33,9 +52,12 @@ embeddings = VertexAIEmbeddings(model="text-embedding-005")
 
 # This is for questions that are not related to CAMELS
 def standard_llm(state: GraphState, config: RunnableConfig):
+
+    # get the LLM model
+    model = get_llm(state)
     
     # invoke the LLM
-    result = llm2.invoke(state["memory"] + [HumanMessage(content=state["query"])])
+    result = model.invoke(state["memory"] + [HumanMessage(content=state["query"])])
     if state["streamlit"]:
         st.session_state.messages.append({"role": "user",      "content": state["query"],
                                           "type":"md"})

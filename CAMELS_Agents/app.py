@@ -6,11 +6,11 @@ import tiktoken
     
 # streamlit configuration
 st.set_page_config(
-    page_title="CAMELS Agent",     # Title of the app (shown in browser tab)
-    page_icon='../images/logo.png',      # Favicon (icon in browser tab)
-    layout="wide",   # Page layout (options: "centered" or "wide")
-    initial_sidebar_state="auto",  # Sidebar behavior
-    menu_items=None      # Custom options for the app menu
+    page_title="CAMELS Agent",       # Title of the app (shown in browser tab)
+    page_icon='../images/logo.png',  # Favicon (icon in browser tab)
+    layout="wide",                   # Page layout (options: "centered" or "wide")
+    initial_sidebar_state="auto",    # Sidebar behavior
+    menu_items=None                  # Custom options for the app menu
 )
 
 # Initialize session state
@@ -26,6 +26,10 @@ if "memory" not in st.session_state["state"]:
     st.session_state["state"]["memory"] = []
 if "option" not in st.session_state:
     st.session_state["option"] = None
+if "selected_llm" not in st.session_state:
+    st.session_state["selected_llm"] = None
+if "temperature" not in st.session_state:
+    st.session_state["temperature"] = None
 
 
 # Custom CSS for sidebar and main content adjustments
@@ -70,10 +74,18 @@ st.markdown(
 ##### Sidebar UI #####
 st.sidebar.image('../images/logo.png')
 st.write("")
-st.sidebar.title("Agent Capabilities")
+st.sidebar.title("Agents parameters")
+
+st.session_state["selected_llm"] = st.sidebar.selectbox(
+    "Choose your LLM:",
+    ["ChatGPT-4o", "Llama3-70b", "Gemini-2-flash"],
+    index=2)
+st.session_state["temperature"] = st.sidebar.slider("LLM temperature",
+                                                        min_value=0.0, max_value=2.0,
+                                                        value=0.5, step=0.1)
 
 # Sidebar UI with dynamic key for forcing reset
-selected_task = st.sidebar.radio("Select an agent task:",
+selected_task = st.sidebar.radio("Select the agent task:",
                                  ["Write CAMELS section",
                                   "CAMELS documentation",
                                   "CAMELS papers",
@@ -96,7 +108,7 @@ task_string = {"Write CAMELS section": "Writing CAMELS section...",
                "CAMELS papers":        "Searching CAMELS papers...",
                "General literature":   "Searching the arXiv...",
                "Coding":               "Working on your query...",
-               "Standard LLM":         "Working on your query"}
+               "Standard LLM":         "Working on your query..."}
 
 # Assign option based on selection
 option = task_options.get(selected_task, None) 
@@ -159,6 +171,8 @@ if submit_button:
             # Run the graph when button is clicked
             result = graph.invoke({"option":option,
                                    "streamlit":True,
+                                   "llm":{"model":st.session_state["selected_llm"],
+                                          "temperature": st.session_state["temperature"]},
                                    "cs":{"improve":False}}, config)
             st.session_state["state"] = GraphState(**result)
         
@@ -223,6 +237,8 @@ if st.session_state.get("submitted", False):  # Only show content if submitted
                 # Run the graph when button is clicked and feedback provided
                 result = graph.invoke({"option":st.session_state["option"],
                                        "streamlit":True,
+                                       "llm":{"model":st.session_state["selected_llm"],
+                                              "temperature": st.session_state["temperature"]},
                                        "memory":st.session_state["state"]["memory"],
                                        "sese":{"limit": 10},
                                        "query":feedback}, config)

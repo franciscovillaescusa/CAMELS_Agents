@@ -43,6 +43,11 @@ class database(TypedDict):
 class SeSe(TypedDict):
     limit: int
 
+# class for the LLM
+class LLM(TypedDict):
+    model: str
+    temperature: float
+
 # class containing the state of the graph
 class GraphState(TypedDict):
     query: str
@@ -56,6 +61,7 @@ class GraphState(TypedDict):
     sese: SeSe
     streamlit: bool = False
     cs: CS
+    llm: LLM
     
 
 # define the starting graph state

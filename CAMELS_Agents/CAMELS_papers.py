@@ -3,7 +3,7 @@ from langchain_core.runnables import RunnableConfig
 from database import get_db_CAMELS_papers
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
 from pydantic import BaseModel, Field
-from llms import llm2
+from llms import get_llm
 import streamlit as st
 
 # class for the model response
@@ -15,6 +15,9 @@ class response(BaseModel):
 # This node checks the retrieved papers and see if they are good given the query
 def CAMELS_papers(state: GraphState, config: RunnableConfig):
 
+    # get the LLM model
+    model = get_llm(state)
+    
     bad_matches, good_matches  = [], ["**Relevant papers:**\n"]
         
     # get the k papers whose abstract match the query more closely
@@ -35,7 +38,7 @@ Abstract: {abstract}
 
         # Invoke LLM
         try:
-            answer = llm2.with_structured_output(response).invoke(PROMPT)
+            answer = model.with_structured_output(response).invoke(PROMPT)
         except Exception as e:
             st.error(f"Error during LLM invocation: {e}")
             continue

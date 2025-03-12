@@ -1,7 +1,7 @@
 from parameters import GraphState
 from langchain_core.runnables import RunnableConfig
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
-from llms import llm2
+from llms import get_llm
 from prompts import *
 import streamlit as st
 
@@ -9,10 +9,13 @@ import streamlit as st
 # This node writes a section describing LaTeX
 def write_section_node(state: GraphState, config: RunnableConfig):
 
+    # choose the llm
+    model = get_llm(state)
+    
     # improve a current version
     if state["cs"]["improve"]:
 
-        result = llm2.invoke(improve_section_prompt(state['memory'], state["cs"]["query"]))
+        result = model.invoke(improve_section_prompt(state['memory'], state["cs"]["query"]))
         if state["streamlit"]:
             st.session_state.messages.append({"role":"user",
                                               "content":state["cs"]["query"],
@@ -39,7 +42,7 @@ Text: {result.content}
             text = file.read()
 
         # generate new section
-        result = llm2.invoke(write_section_prompt(text))
+        result = model.invoke(write_section_prompt(text))
         if state["streamlit"]:
             st.session_state.messages.append({"role":"assistant",
                                               "content":result.content,

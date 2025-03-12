@@ -2,7 +2,7 @@ from parameters import GraphState
 from langchain_core.runnables import RunnableConfig
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
 from langchain_chroma import Chroma
-from llms import llm2, embeddings
+from llms import get_llm, embeddings
 from prompts import *
 import os
 from database import get_db_CAMELS_docs
@@ -22,6 +22,9 @@ def question(state: GraphState, config: RunnableConfig):
 
 # Given a query, this node will search the CAMELS docs to find an answer
 def CAMELS_docs(state: GraphState, config: RunnableConfig):
+
+    # get the LLM model
+    model = get_llm(state)
     
     # get the documents more similar to the query
     db_docs = get_db_CAMELS_docs()
@@ -42,7 +45,7 @@ def CAMELS_docs(state: GraphState, config: RunnableConfig):
     PROMPT = RAG_prompt(state['memory'], state['context'], state['query'])
     
     # get the RAG result
-    result = llm2.invoke(PROMPT)
+    result = model.invoke(PROMPT)
     if state["streamlit"]:
         st.session_state.messages.append({"role": "user", "content": state["query"],
                                           "type":"md"})
@@ -66,7 +69,7 @@ def generate(state: GraphState, config: RunnableConfig):
     PROMPT = RAG_prompt(state['memory'], state['context'], state['query'])
 
     # get the RAG result
-    result = llm2.invoke(PROMPT)
+    result = model.invoke(PROMPT)
     print(result.content)
 
     mem = add_messages(state["memory"], [HumanMessage(content=state["query"]),

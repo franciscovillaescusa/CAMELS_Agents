@@ -3,7 +3,7 @@ from langgraph.graph.message import add_messages
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
 from parameters import GraphState
 from prompts import coding_prompt
-from llms import llm2
+from llms import get_llm
 import streamlit as st
 from functools import lru_cache
 
@@ -16,11 +16,14 @@ def load_instructions():
 # node specialized in coding for CAMELS
 def coding_node(state: GraphState, config: RunnableConfig):
 
+    # get llm
+    model = get_llm(state)
+    
     # Load instructions (only once due to caching)
     instructions = load_instructions()
     
     PROMPT = coding_prompt(state["query"], state["memory"], instructions)
-    result = llm2.invoke(PROMPT)
+    result = model.invoke(PROMPT)
 
     if state["streamlit"]:
         st.session_state.messages.append({"role": "user",      "content": state["query"],
