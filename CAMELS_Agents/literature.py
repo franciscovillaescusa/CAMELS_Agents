@@ -27,19 +27,19 @@ def SSAPI(query, limit):
     Returns:
         list: A list of dictionaries containing paper details.
     """
-    headers = {
-        "x-api-key": API_KEY,
-    }
+    
     params = {
         "query": query,
         "limit": limit,
         "fields": "title,authors,year,abstract,url"
     }
-    response = requests.get(BASE_URL,
-                            headers=headers,
-                            params=params)
 
-
+    # Conditionally include headers if API_KEY is available
+    if API_KEY:
+        response = requests.get(BASE_URL, headers={"x-api-key": API_KEY}, params=params)
+    else:
+        response = requests.get(BASE_URL, params=params)
+    
     if response.status_code == 200:
         return response.json()
     else:

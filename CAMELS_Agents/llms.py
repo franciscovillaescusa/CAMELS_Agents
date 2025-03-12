@@ -12,9 +12,8 @@ import os
 # load API keys
 load_dotenv()
 required_env_vars = [
-    "LANGCHAIN_TRACING_V2", "LANGCHAIN_API_KEY", "LANGCHAIN_ENDPOINT",
-    "LANGCHAIN_PROJECT", "GROQ_API_KEY", "GOOGLE_API_KEY",
-    "GOOGLE_APPLICATION_CREDENTIALS"]
+    "LANGCHAIN_TRACING_V2", "LANGCHAIN_API_KEY", "LANGCHAIN_ENDPOINT", "LANGCHAIN_PROJECT",
+    "GOOGLE_API_KEY", "GOOGLE_APPLICATION_CREDENTIALS"]
 for var in required_env_vars:
     if not os.getenv(var):
         st.error(f"Missing environment variable: {var}")
@@ -23,9 +22,9 @@ for var in required_env_vars:
 llm2 = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.5)
 #llm2 = ChatGoogleGenerativeAI(model="gemini-2.0-flash-thinking-exp-01-21", temperature=0)
 #llm  = ChatGroq(model="llama3-groq-8b-8192-tool-use-preview", temperature=0)
-llm  = ChatGroq(model="llama3-8b-8192", temperature=0)
+#llm  = ChatGroq(model="llama3-8b-8192", temperature=0)
 #llm2  = ChatGroq(model="gemma2-9b-it", temperature=0.5)
-llm3  = ChatGroq(model="deepseek-r1-distill-qwen-32b", temperature=0.6)
+#llm3  = ChatGroq(model="deepseek-r1-distill-qwen-32b", temperature=0.6)
 #llm  = ChatGroq(model="gemma2-9b-it", temperature=0)
 #llm_t = llm.bind_tools(tools)
 

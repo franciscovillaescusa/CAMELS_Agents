@@ -2,7 +2,7 @@ from parameters import GraphState
 from langchain_core.runnables import RunnableConfig
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
 from langchain_chroma import Chroma
-from llms import llm, llm2, embeddings
+from llms import llm2, embeddings
 from prompts import *
 import os
 from database import get_db_CAMELS_docs
@@ -66,7 +66,7 @@ def generate(state: GraphState, config: RunnableConfig):
     PROMPT = RAG_prompt(state['memory'], state['context'], state['query'])
 
     # get the RAG result
-    result = llm.invoke(PROMPT)
+    result = llm2.invoke(PROMPT)
     print(result.content)
 
     mem = add_messages(state["memory"], [HumanMessage(content=state["query"]),

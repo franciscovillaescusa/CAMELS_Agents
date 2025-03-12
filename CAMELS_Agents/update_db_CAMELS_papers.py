@@ -5,7 +5,7 @@ import pymupdf, pymupdf4llm
 from langchain_core.messages import HumanMessage
 from langchain_core.documents import Document
 from prompts import title_abstract_prompt, title_abstract_from_paper_prompt
-from llms import llm, llm2, embeddings
+from llms import llm2, embeddings
 from database import get_db_CAMELS_papers
 sys.path.append("../Input_Text")
 from CAMELS_paper_links import links
