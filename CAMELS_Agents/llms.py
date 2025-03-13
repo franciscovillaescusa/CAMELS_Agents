@@ -12,12 +12,12 @@ import os
 
 # load API keys
 load_dotenv()
-required_env_vars = [
-    "LANGCHAIN_TRACING_V2", "LANGCHAIN_API_KEY", "LANGCHAIN_ENDPOINT", "LANGCHAIN_PROJECT",
-    "GOOGLE_API_KEY", "GOOGLE_APPLICATION_CREDENTIALS"]
+
+# load optional variables
+optional_env_vars = [ "LANGCHAIN_TRACING_V2", "LANGCHAIN_API_KEY",
+                      "LANGCHAIN_ENDPOINT", "LANGCHAIN_PROJECT"]
 for var in required_env_vars:
-    if not os.getenv(var):
-        st.error(f"Missing environment variable: {var}")
+    value = os.getenv(var)
 
 
 # This function gets the llm model
@@ -26,13 +26,26 @@ def get_llm(state):
     # get the model and its temperature
     model       = state['llm']['model']
     temperature = state['llm']['temperature']
-    
+
+    # Gemini
     if   model=='Gemini-2-flash':
+        for var in ["GOOGLE_API_KEY", "GOOGLE_APPLICATION_CREDENTIALS"]:
+            if not os.getenv(var):
+                st.error(f"Missing environment variable: {var}")
         return ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=temperature)
+
+    # ChatGPT
     elif model=='ChatGPT-4o':
-        return ChatOpenAI(model="4o", temperature=temperature)
-    elif model=='LLama3-70b':
+        if not os.getenv("OPENAI_API_KEY"):
+            st.error(f"Missing environment variable: OPENAI_API_KEY")
+        return ChatOpenAI(model="gpt-4o", temperature=temperature)
+
+    # LLama3
+    elif model=='Llama3-70b':
+        if not os.getenv("GROQ_API_KEY"):
+            st.error(f"Missing environment variable: GROQ_API_KEY")
         return ChatGroq(model="llama3-70b-8192", temperature=temperature)
+
     else:
         st.error("Wrong model choosen!")
         st.stop()
