@@ -16,7 +16,7 @@ load_dotenv()
 # load optional variables
 optional_env_vars = [ "LANGCHAIN_TRACING_V2", "LANGCHAIN_API_KEY",
                       "LANGCHAIN_ENDPOINT", "LANGCHAIN_PROJECT"]
-for var in required_env_vars:
+for var in optional_env_vars:
     value = os.getenv(var)
 
 
