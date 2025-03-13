@@ -40,7 +40,7 @@ GOOGLE_APPLICATION_CREDENTIALS=gemini.json
 # Semantic scholar key (optional)
 #SEMANTIC_SCHOLAR_KEY=your_semantic_schoolar_api_key
 ```
-If you are going to use ChatGPT, comment out the OPENAI_API_KEY and put your own key.
+If, for example, you are going to use ChatGPT, comment the gemini parameters, comment out the OPENAI_API_KEY and put your own key.
 
 ### How to get the keys
 
