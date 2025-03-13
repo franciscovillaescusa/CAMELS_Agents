@@ -1,10 +1,12 @@
-from parameters import GraphState
+import streamlit as st
 from langchain_core.runnables import RunnableConfig
-from database import get_db_CAMELS_papers
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
 from pydantic import BaseModel, Field
-from llms import get_llm
-import streamlit as st
+
+from src.parameters import GraphState
+from src.database import get_db_CAMELS_papers
+from src.llms import get_llm
+
 
 # class for the model response
 class response(BaseModel):

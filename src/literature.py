@@ -1,9 +1,10 @@
 import requests
 import os,json
-from parameters import GraphState
 from langchain_core.runnables import RunnableConfig
 from dotenv import load_dotenv
 import streamlit as st
+
+from src.parameters import GraphState
 
 # Set your API key here
 load_dotenv()

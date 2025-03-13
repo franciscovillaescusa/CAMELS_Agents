@@ -7,7 +7,7 @@ from langchain_core.documents import Document
 from prompts import title_abstract_prompt, title_abstract_from_paper_prompt
 from llms import get_llm
 from database import get_db_CAMELS_papers
-sys.path.append("../Input_Text")
+sys.path.append("Input_Text/")
 from CAMELS_paper_links import links
 
 

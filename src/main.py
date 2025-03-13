@@ -3,15 +3,15 @@ from langgraph.graph import START, StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.checkpoint.sqlite import SqliteSaver
 
-from prompts import *
-from parameters import GraphState, initial_graph_state
-from writing import write_section_node
-from routers import general_router
-from llms import standard_llm
-from CAMELS_documentation import *
-from CAMELS_papers import *
-from literature import semantic_search
-from coding import coding_node
+from src.prompts import *
+from src.parameters import GraphState, initial_graph_state
+from src.writing import write_section_node
+from src.routers import general_router
+from src.llms import standard_llm
+from src.CAMELS_documentation import *
+from src.CAMELS_papers import *
+from src.literature import semantic_search
+from src.coding import coding_node
     
 
 # Define the graph

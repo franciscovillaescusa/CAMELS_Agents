@@ -1,16 +1,17 @@
 from langchain_core.runnables import RunnableConfig
 from langgraph.graph.message import add_messages
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
-from parameters import GraphState
-from prompts import coding_prompt
-from llms import get_llm
 import streamlit as st
 from functools import lru_cache
+
+from src.parameters import GraphState
+from src.prompts import coding_prompt
+from src.llms import get_llm
 
 # Function to CAMELS details, cached for efficiency
 @lru_cache(maxsize=1)
 def load_instructions():
-    with open("../Input_Text/CAMELS_coding.txt", "r") as file:
+    with open("Input_Text/CAMELS_coding.txt", "r") as file:
         return file.read()
 
 # node specialized in coding for CAMELS

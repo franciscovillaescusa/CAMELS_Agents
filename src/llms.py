@@ -3,12 +3,13 @@ from langchain_google_vertexai import VertexAIEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
-from parameters import GraphState
 from langchain_core.runnables import RunnableConfig
 from langgraph.graph.message import add_messages
 import streamlit as st
 from dotenv import load_dotenv
 import os
+
+from src.parameters import GraphState
 
 # load API keys
 load_dotenv()

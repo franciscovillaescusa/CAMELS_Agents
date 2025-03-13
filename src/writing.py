@@ -1,9 +1,9 @@
-from parameters import GraphState
 from langchain_core.runnables import RunnableConfig
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
-from llms import get_llm
-from prompts import *
 import streamlit as st
+from src.parameters import GraphState
+from src.llms import get_llm
+from src.prompts import *
 
 #####################################################################################
 # This node writes a section describing LaTeX
@@ -38,7 +38,7 @@ Text: {result.content}
     else:
     
         # get the CAMELS section
-        with open('../Input_Text/CAMELS_section.txt', 'r') as file:
+        with open('Input_Text/CAMELS_section.txt', 'r') as file:
             text = file.read()
 
         # generate new section

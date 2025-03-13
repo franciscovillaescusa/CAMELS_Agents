@@ -1,7 +1,6 @@
-from parameters import GraphState
 from typing import Annotated, Literal
 from langchain_core.runnables import RunnableConfig
-
+from src.parameters import GraphState
 
 # This router will direct the LLM to the corresponding node
 def general_router(state: GraphState) -> Literal["write_section_node", "CAMELS_papers", "CAMELS_docs", "semantic_search", "coding_node","standard_llm", "__end__"]:

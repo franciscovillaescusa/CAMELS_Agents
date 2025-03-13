@@ -1,9 +1,11 @@
 from langchain_community.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from parameters import GraphState, initial_graph_state
 from langchain_chroma import Chroma
-from llms import embeddings
 import os
+
+from src.parameters import GraphState, initial_graph_state
+from src.llms import embeddings
+
 
 # Singleton instances for databases
 _db_CAMELS_docs   = None
