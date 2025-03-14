@@ -7,9 +7,14 @@ from langchain_core.runnables import RunnableConfig
 from langgraph.graph.message import add_messages
 import streamlit as st
 from dotenv import load_dotenv
-import os
-
+import os,json
 from src.parameters import GraphState
+
+# check if secrets exists and look for google credentials there
+if os.path.exists(".streamlit/secrets.toml"):
+    if "google_credentials" in st.secrets:
+        with open("gemini_text.json", "w") as f:
+            json.dump(dict(st.secrets["google_credentials"]), f)
 
 # load API keys
 load_dotenv()

@@ -8,6 +8,7 @@ AI agents to help working with [CAMELS](https://camels.readthedocs.io) (Cosmolog
 ### Requirements:
 - python 3.10 or above. Needed to properly use the UI.
 - An API for the LLM model. CAMELS Agents supports Gemini, ChatGPT, and Llama3.
+- A Vertex AI setup file for the embeddings.
 - A [langchain](https://www.langchain.com) API key (optional). 
 - A [semantic scholar](https://www.semanticscholar.org) API key (optional).
 
@@ -21,9 +22,11 @@ AI agents to help working with [CAMELS](https://camels.readthedocs.io) (Cosmolog
 At this point, the library should be installed together with all its dependencies. Next we need to create a .env with this content:
 
 ```
+# Vertex AI (used for embeddings)
+GOOGLE_APPLICATION_CREDENTIALS=gemini.json
+
 # Gemini parameters (needed if using Gemini)
 GOOGLE_API_KEY=your_google_api_key
-GOOGLE_APPLICATION_CREDENTIALS=gemini.json
 
 # OpenAI parameters (needed if using ChatGPT)
 #OPENAI_API_KEY=your_openai_api_key
@@ -44,7 +47,13 @@ If, for example, you are going to use ChatGPT, comment the gemini parameters, co
 
 ### How to get the keys
 
-**Gemini**. CAMELS agents use both an LLM (gemini-2-flash) and an embedding model (text-embedding-005). To get those working, follow these instructions:
+**LLMs:**
+
+- **Gemini**. Get the API key from the [Gemini API key](https://ai.google.dev/gemini-api/docs/api-key).
+- **OpenAI**. Get the API key from the [openai website](https://platform.openai.com).
+- **GROQ**. Get the API key from the [Groq website](https://console.groq.com/).
+
+**Vertex AI**. CAMELS agents use an embedding model (text-embedding-005) for RAG tasks. To enable the google embeddings, follow these instructions:
 
 - login into google cloud: https://console.cloud.google.com/
 - create a project
@@ -60,10 +69,6 @@ If, for example, you are going to use ChatGPT, comment the gemini parameters, co
 - Download the JSON file and place it inside the CAMELS_Agent subfolder
 - change the name of that file to gemini.json
 
-**OpenAI**. Go to the [openai website](https://platform.openai.com) and get an API key there.
-
-**GROQ**. Create an account in the [Groq website](https://console.groq.com/) and get your API keys there.
-
 **Langchain (optional)**. Go to the [langsmith](https://www.langchain.com/langsmith) website and login. Click on settings (bottom left) and create an API key.
 
 **Semantic scholar (optional)**. Go to the [semantic schoolar website](https://www.semanticscholar.org) and sign in/create an account. At the bottom of the page, go to API overview. At the end of the page there is a form to request an API key. Note that unless you made use of semantic schoolar heavily, you dont need an API key.
@@ -75,7 +80,9 @@ Once the code is installed and all the API keys in place type:
 
 `streamlit run app.py`
 
-# Modifying the code
+# Tuning prompts.
+
+CAMELS Agents use several text files to context and/or guide the LLM behaviour. You may want to tune these for your particular needs.
 
 ### CAMELS section
 
