@@ -1,8 +1,11 @@
 import streamlit as st
 from src.main import graph
 from src.parameters import config, GraphState
-import tiktoken
+import tiktoken, json
 
+# Save credentials to a temporary JSON file
+with open("gemini.json", "w") as f:
+    json.dump(st.secrets["google_credentials"], f)
     
 # streamlit configuration
 st.set_page_config(
