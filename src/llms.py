@@ -22,12 +22,16 @@ for var in [ "LANGCHAIN_TRACING_V2", "LANGCHAIN_API_KEY",
              "LANGCHAIN_ENDPOINT",   "LANGCHAIN_PROJECT"]:
     value = os.getenv(var)
 
-# embedding model
-embeddings = VertexAIEmbeddings(model="text-embedding-005")
+# This function gets the embedding model
+def get_embeddings():
+
+    value = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    embeddings = VertexAIEmbeddings(model="text-embedding-005")
+    return embeddings
 
 
 # This function gets the llm model
-def get_llm(state):
+def get_llm(state: GraphState):
 
     # get the model and its temperature
     model       = state['llm']['model']
@@ -35,7 +39,7 @@ def get_llm(state):
 
     # Gemini
     if   model=='Gemini-2-flash':
-        for var in ["GOOGLE_API_KEY", "GOOGLE_APPLICATION_CREDENTIALS"]:
+        for var in ["GOOGLE_API_KEY"]:#, "GOOGLE_APPLICATION_CREDENTIALS"]:
             if not os.getenv(var):
                 st.error(f"Missing environment variable: {var}")
         return ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=temperature)
@@ -52,6 +56,18 @@ def get_llm(state):
             st.error(f"Missing environment variable: GROQ_API_KEY")
         return ChatGroq(model="llama3-70b-8192", temperature=temperature)
 
+    # Gemma2
+    elif model=='Gemma2-9b':
+        if not os.getenv("GROQ_API_KEY"):
+            st.error(f"Missing environment variable: GROQ_API_KEY")
+        return ChatGroq(model="gemma2-9b-it", temperature=temperature)
+
+    # DeepSeek
+    elif model=="DeepSeek-R1-Llama70b":
+        if not os.getenv("GROQ_API_KEY"):
+            st.error(f"Missing environment variable: GROQ_API_KEY")
+        return ChatGroq(model="deepseek-r1-distill-llama-70b", temperature=temperature)
+    
     else:
         st.error("Wrong model choosen!")
         st.stop()

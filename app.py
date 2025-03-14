@@ -77,7 +77,8 @@ st.sidebar.title("Agents parameters")
 
 st.session_state["selected_llm"] = st.sidebar.selectbox(
     "Choose the LLM:",
-    ["ChatGPT-4o", "Llama3-70b", "Gemini-2-flash"],
+    ["ChatGPT-4o", "Llama3-70b", "Gemini-2-flash", "Gemma2-9b",
+     "DeepSeek-R1-Llama70b"],
     index=2)
 st.session_state["temperature"] = st.sidebar.slider("LLM temperature",
                                                         min_value=0.0, max_value=2.0,

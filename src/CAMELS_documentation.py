@@ -6,7 +6,7 @@ import streamlit as st
 import os
 
 from src.parameters import GraphState
-from src.llms import get_llm, embeddings
+from src.llms import get_llm
 from src.prompts import *
 from src.database import get_db_CAMELS_docs
 

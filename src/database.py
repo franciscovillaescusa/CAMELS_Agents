@@ -4,7 +4,7 @@ from langchain_chroma import Chroma
 import os
 
 from src.parameters import GraphState, initial_graph_state
-from src.llms import embeddings
+from src.llms import get_embeddings
 
 
 # Singleton instances for databases
@@ -15,6 +15,7 @@ _db_CAMELS_papers = None
 def get_db_CAMELS_docs():
 
     global _db_CAMELS_docs
+    embeddings = get_embeddings()
 
     # only do this the first time the function is called
     if _db_CAMELS_docs is None:
