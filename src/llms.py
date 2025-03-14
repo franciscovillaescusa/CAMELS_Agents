@@ -13,17 +13,17 @@ from src.parameters import GraphState
 # check if secrets exists and look for google credentials there
 if os.path.exists(".streamlit/secrets.toml"):
     if "google_credentials" in st.secrets:
-        with open("gemini_text.json", "w") as f:
+        with open("gemini.json", "w") as f:
             json.dump(dict(st.secrets["google_credentials"]), f)
 
-# load API keys
+# load optional API keys
 load_dotenv()
-
-# load optional variables
-optional_env_vars = [ "LANGCHAIN_TRACING_V2", "LANGCHAIN_API_KEY",
-                      "LANGCHAIN_ENDPOINT", "LANGCHAIN_PROJECT"]
-for var in optional_env_vars:
+for var in [ "LANGCHAIN_TRACING_V2", "LANGCHAIN_API_KEY",
+             "LANGCHAIN_ENDPOINT",   "LANGCHAIN_PROJECT"]:
     value = os.getenv(var)
+
+# embedding model
+embeddings = VertexAIEmbeddings(model="text-embedding-005")
 
 
 # This function gets the llm model
@@ -65,8 +65,6 @@ def get_llm(state):
 #llm3  = ChatGroq(model="deepseek-r1-distill-qwen-32b", temperature=0.6)
 #llm  = ChatGroq(model="gemma2-9b-it", temperature=0)
 #llm_t = llm.bind_tools(tools)
-
-embeddings = VertexAIEmbeddings(model="text-embedding-005")
 
 
 # This is for questions that are not related to CAMELS
