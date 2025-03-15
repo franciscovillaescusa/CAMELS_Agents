@@ -7,6 +7,7 @@ langchain-groq
 langchain-google-vertexai
 langchain-google-genai
 langchain-openai
+langchain-anthropic
 langgraph
 langgraph-checkpoint-sqlite
 pydantic
