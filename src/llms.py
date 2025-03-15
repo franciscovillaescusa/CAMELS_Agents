@@ -26,8 +26,7 @@ for var in [ "LANGCHAIN_TRACING_V2", "LANGCHAIN_API_KEY",
 def get_embeddings():
 
     value = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-    embeddings = VertexAIEmbeddings(model="text-embedding-005")
-    return embeddings
+    return VertexAIEmbeddings(model="text-embedding-005")
 
 
 # This function gets the llm model

@@ -12,7 +12,7 @@ AI agents to help working with [CAMELS](https://camels.readthedocs.io) (Cosmolog
   - Gemma2-9b
   - ChatGPT-4o
   - Llama3-70b
-  - DeepSeek-R1-distill-llama-70b.
+  - DeepSeek-R1-distill-llama-70b
 - A Vertex AI setup file for the embeddings.
 - A [langchain](https://www.langchain.com) API key (optional). 
 - A [semantic scholar](https://www.semanticscholar.org) API key (optional).
@@ -95,7 +95,7 @@ The original text describing CAMELS is located in `Input_Text/CAMELS_section.txt
 
 ### CAMELS papers
 
-The agents are able to identify CAMELS papers for a given query; for instance to see if an idea has been already carried out. The list of CAMELS papers is located in `Input_Text/CAMELS_papers_links.py`. Add any paper you want to the list for the agents to work with them. One the list is updated, go to `CAMELS_Agents` folder and run `python update_db_CAMELS_papers.py` to add those papers to the Chroma database.
+The agents are able to identify CAMELS papers for a given query; for instance to see if an idea has been already carried out. The list of CAMELS papers is located in `Input_Text/CAMELS_papers_links.py`. Add any paper you want to the list for the agents to work with them. One the list is updated, go to the `src` folder and run `python update_db_CAMELS_papers.py` to add those papers to the Chroma database.
 
 ### CAMELS coding
 

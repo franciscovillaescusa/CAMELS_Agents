@@ -49,6 +49,7 @@ def get_db_CAMELS_docs():
 def get_db_CAMELS_papers():
     
     global _db_CAMELS_papers
+    embeddings = get_embeddings()
 
     # only do this the first time the function is called
     if _db_CAMELS_papers is None:

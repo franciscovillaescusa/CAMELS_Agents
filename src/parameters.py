@@ -17,7 +17,7 @@ persist_directory_docs = "docs_database"
 
 # Chroma parameters for CAMELS papers
 collection_name_papers   = 'CAMELS_papers'
-persist_directory_papers = "papers_database/papers_db"
+persist_directory_papers = "papers_database"
 ###########################################################################################
 
 # class for writing CAMELS section
