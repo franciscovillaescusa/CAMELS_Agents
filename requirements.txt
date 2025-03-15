@@ -13,3 +13,4 @@ pydantic
 dotenv
 requests
 typing-extensions
+pysqlite3-binary
