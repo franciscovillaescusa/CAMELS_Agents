@@ -16,11 +16,11 @@ st.set_page_config(
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
 if "state" not in st.session_state:
-    st.session_state["state"] = {}  # Initialize as an empty dictionary
+    st.session_state["state"] = {}  
 if "task_reset_key" not in st.session_state:
-    st.session_state["task_reset_key"] = "task_0"  # Default key
+    st.session_state["task_reset_key"] = "task_0"  
 if "reset_count" not in st.session_state:
-    st.session_state["reset_count"] = 0  # Track resets
+    st.session_state["reset_count"] = 0  
 if "memory" not in st.session_state["state"]:
     st.session_state["state"]["memory"] = []
 if "option" not in st.session_state:
@@ -29,7 +29,7 @@ if "selected_llm" not in st.session_state:
     st.session_state["selected_llm"] = None
 if "temperature" not in st.session_state:
     st.session_state["temperature"] = None
-if "LLM_API_KEYS" not in st.session_state:# or st.session_state["LLM_API_KEYS"] is None:
+if "LLM_API_KEYS" not in st.session_state:
     st.session_state["LLM_API_KEYS"] = {}
 
 
@@ -188,10 +188,15 @@ else:
 # Submit button in the sidebar
 if submit_button:
 
+    # Safely check for the API key
+    if not st.session_state["LLM_API_KEYS"].get(selected_llm):
+        st.error(f'Missing API key for {selected_llm}')
+        st.stop()
+    
     if st.session_state["option"]==1:
 
         with st.spinner(task_string[st.session_state["task"]]):
-
+            
             # Run the graph when button is clicked
             result = graph.invoke({"option":option,
                                    "streamlit":True,
@@ -257,8 +262,11 @@ if st.session_state.get("submitted", False):  # Only show content if submitted
 
         if feedback:
 
+            if not(st.session_state['LLM_API_KEYS'][selected_llm]):
+                st.stop(f'Missing API key for {selected_llm}')
+            
             with st.spinner(task_string[st.session_state["task"]]):
-        
+                
                 # Run the graph when button is clicked and feedback provided
                 result = graph.invoke({"option":st.session_state["option"],
                                        "streamlit":True,
