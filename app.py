@@ -66,9 +66,11 @@ if selected_llm not in st.session_state["LLM_API_KEYS"]:
 
 # Display status after the key is saved
 if selected_llm in st.session_state["LLM_API_KEYS"]:
-    st.sidebar.success(f"{selected_llm} API key set ✅")
+    st.sidebar.markdown(f"<small style='color:green;'> ✅: {selected_llm} API key set</small>",unsafe_allow_html=True)
 else:
-    st.sidebar.warning(f"{selected_llm} API key not set ❌")
+    st.sidebar.markdown(f"<small style='color:red;'>❌: No {selected_llm} API key</small>", unsafe_allow_html=True)
+
+    #st.sidebar.markdown(f"<small style='color:#f39c12;'> ❌: No {selected_llm} API key </small>", unsafe_allow_html=True)
 
     
 st.session_state["temperature"] = st.sidebar.slider("LLM temperature:",
@@ -108,7 +110,7 @@ if selected_task:
     st.session_state["task"] = selected_task
     st.session_state["option"] = option
 
-submit_button = st.sidebar.button("Select task")
+submit_button = st.sidebar.button("Select task", use_container_width=True)
 
 # Count tokens
 encoding = tiktoken.encoding_for_model("gpt-4")
