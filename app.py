@@ -6,7 +6,7 @@ import tiktoken
 # streamlit configuration
 st.set_page_config(
     page_title="CAMELS Agent",       # Title of the app (shown in browser tab)
-    page_icon='images/logo.png',  # Favicon (icon in browser tab)
+    page_icon='images/logo.png',     # Favicon (icon in browser tab)
     layout="wide",                   # Page layout (options: "centered" or "wide")
     initial_sidebar_state="auto",    # Sidebar behavior
     menu_items=None                  # Custom options for the app menu
@@ -29,28 +29,30 @@ if "selected_llm" not in st.session_state:
     st.session_state["selected_llm"] = None
 if "temperature" not in st.session_state:
     st.session_state["temperature"] = None
+if "LLM_API_KEYS" not in st.session_state:# or st.session_state["LLM_API_KEYS"] is None:
+    st.session_state["LLM_API_KEYS"] = {}
 
 
 # Custom CSS for sidebar and main content adjustments
 st.markdown(
     """
     <style>
-        /* Move sidebar elements up */
+        /* Move sidebar elements up 
         section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"] {
             padding-top: 0px;
             margin-top: -50px; /* Adjust this value to move it further up */
-        }
+        }*/
 
         /* Adjust sidebar width */
         [data-testid="stSidebar"] {
             width: 300px !important;  
         }
 
-        /* Move main content closer to the top */
+        /* Move main content closer to the top 
         .block-container {
             padding-top: 0rem !important;  /* Reduce top space */
             margin-top: 30px;  /* Move content further up */
-        } 
+        } */
 
         /* Ensure text wraps and does not cause horizontal scrolling */
         div[data-testid="stTextArea"] textarea {
@@ -72,17 +74,37 @@ st.markdown(
 
 ##### Sidebar UI #####
 st.sidebar.image('images/logo.png')
-st.write("")
-st.sidebar.title("Agents parameters")
 
-st.session_state["selected_llm"] = st.sidebar.selectbox(
+selected_llm = st.sidebar.selectbox(
     "Choose the LLM:",
-    ["ChatGPT-4o", "Llama3-70b", "Gemini-2-flash", "Gemma2-9b",
-     "DeepSeek-R1-Llama70b"],
-    index=2)
-st.session_state["temperature"] = st.sidebar.slider("LLM temperature",
-                                                        min_value=0.0, max_value=2.0,
-                                                        value=0.5, step=0.1)
+    ["ChatGPT-4o", "Llama3-70b", "Gemini-2-flash", "Gemma2-9b", "DeepSeek-R1-Llama70b"],
+    index=2, key="llm_select_key")
+st.session_state["selected_llm"] = selected_llm
+
+
+# If API key doesn't exist, show the input field
+if selected_llm not in st.session_state["LLM_API_KEYS"]:
+    api_key = st.sidebar.text_input(
+        f"Enter API key for {selected_llm}:",
+        type="password",
+        key=f"{selected_llm}_api_key_input"
+    )
+    
+    # If the user enters a key, save it and rerun to refresh the interface
+    if api_key:
+        st.session_state["LLM_API_KEYS"][selected_llm] = api_key
+        st.rerun()
+
+# Display status after the key is saved
+if selected_llm in st.session_state["LLM_API_KEYS"]:
+    st.sidebar.success(f"{selected_llm} API key set ✅")
+else:
+    st.sidebar.warning(f"{selected_llm} API key not set ❌")
+
+    
+st.session_state["temperature"] = st.sidebar.slider("LLM temperature:",
+                                                    min_value=0.0, max_value=2.0,
+                                                    value=0.5, step=0.1)
 
 # Sidebar UI with dynamic key for forcing reset
 selected_task = st.sidebar.radio("Select the agent task:",
@@ -116,12 +138,21 @@ option = task_options.get(selected_task, None)
 if selected_task:
     st.session_state["task"] = selected_task
     st.session_state["option"] = option
-#st.sidebar.write(f"Agent task: {selected_task}")
 
 submit_button = st.sidebar.button("Select task")
-st.sidebar.write("\n\n\n\n")
-print_memory  = st.sidebar.button("Print memory")
-reset         = st.sidebar.button("Clear memory")
+
+# Count tokens
+encoding = tiktoken.encoding_for_model("gpt-4")
+memory_text = " ".join(map(str, st.session_state["state"].get("memory", [])))
+token_count = len(encoding.encode(memory_text)) if memory_text else 0
+st.sidebar.write(f"Tokens in memory: {token_count}")
+
+#with st.sidebar:
+col1, col2 = st.sidebar.columns(2)  # Create two columns within the sidebar
+with col1:
+    print_memory  = st.button("Print memory")  
+with col2:
+    reset         = st.button("Clear memory")
 
 if reset:
     # Reset session state properly
@@ -132,19 +163,12 @@ if reset:
     st.session_state["reset_count"] += 1
     st.session_state["task_reset_key"] = f"task_{st.session_state['reset_count']}"
     st.rerun()  # Force app refresh
-
-# Count tokens
-encoding = tiktoken.encoding_for_model("gpt-4")
-memory_text = " ".join(map(str, st.session_state["state"].get("memory", [])))
-token_count = len(encoding.encode(memory_text)) if memory_text else 0
-st.sidebar.write(f"Tokens in memory: {token_count}")
-
     
     
 ##########################
 
 # Main UI 
-st.title("CAMELS Agent")
+#st.title("CAMELS Agent")
 
 # print messages
 if print_memory:
@@ -172,7 +196,8 @@ if submit_button:
             result = graph.invoke({"option":option,
                                    "streamlit":True,
                                    "llm":{"model":st.session_state["selected_llm"],
-                                          "temperature": st.session_state["temperature"]},
+                                          "temperature": st.session_state["temperature"],
+                                          "key": st.session_state["LLM_API_KEYS"][selected_llm]},
                                    "cs":{"improve":False}}, config)
             st.session_state["state"] = GraphState(**result)
         
@@ -238,7 +263,8 @@ if st.session_state.get("submitted", False):  # Only show content if submitted
                 result = graph.invoke({"option":st.session_state["option"],
                                        "streamlit":True,
                                        "llm":{"model":st.session_state["selected_llm"],
-                                              "temperature": st.session_state["temperature"]},
+                                              "temperature": st.session_state["temperature"],
+                                              "key": st.session_state["LLM_API_KEYS"][selected_llm]},
                                        "memory":st.session_state["state"]["memory"],
                                        "sese":{"limit": 10},
                                        "query":feedback}, config)

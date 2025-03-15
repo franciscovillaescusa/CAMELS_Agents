@@ -7,3 +7,6 @@ CAMELS_Agents/gemini.json
 .DS_Store
 */.DS_Store
 */*/.DS_Store
+gemini.json
+gemini.toml
+build

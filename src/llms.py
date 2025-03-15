@@ -35,51 +35,33 @@ def get_llm(state: GraphState):
     # get the model and its temperature
     model       = state['llm']['model']
     temperature = state['llm']['temperature']
+    API_KEY     = state['llm']['key']
 
     # Gemini
     if   model=='Gemini-2-flash':
-        for var in ["GOOGLE_API_KEY"]:#, "GOOGLE_APPLICATION_CREDENTIALS"]:
-            if not os.getenv(var):
-                st.error(f"Missing environment variable: {var}")
+        os.environ["GOOGLE_API_KEY"] = API_KEY
         return ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=temperature)
 
     # ChatGPT
     elif model=='ChatGPT-4o':
-        if not os.getenv("OPENAI_API_KEY"):
-            st.error(f"Missing environment variable: OPENAI_API_KEY")
+        os.environ["OPENAI_API_KEY"] = API_KEY
         return ChatOpenAI(model="gpt-4o", temperature=temperature)
 
-    # LLama3
-    elif model=='Llama3-70b':
-        if not os.getenv("GROQ_API_KEY"):
-            st.error(f"Missing environment variable: GROQ_API_KEY")
-        return ChatGroq(model="llama3-70b-8192", temperature=temperature)
+    # LLama3, Gemma2 & DeepSeek-R1
+    elif model in ['Llama3-70b', 'Gemma2-9b', "DeepSeek-R1-Llama70b"]:
+        os.environ["GROQ_API_KEY"] = API_KEY
 
-    # Gemma2
-    elif model=='Gemma2-9b':
-        if not os.getenv("GROQ_API_KEY"):
-            st.error(f"Missing environment variable: GROQ_API_KEY")
-        return ChatGroq(model="gemma2-9b-it", temperature=temperature)
-
-    # DeepSeek
-    elif model=="DeepSeek-R1-Llama70b":
-        if not os.getenv("GROQ_API_KEY"):
-            st.error(f"Missing environment variable: GROQ_API_KEY")
-        return ChatGroq(model="deepseek-r1-distill-llama-70b", temperature=temperature)
-    
+        if   model=='Llama3-70b':
+            return ChatGroq(model='Llama3-70b-8192', temperature=temperature)
+        elif model=='Gemma2-9b':
+            return ChatGroq(model='gemma2-9b-it',    temperature=temperature)
+        elif model=='DeepSeek-R1-Llama70b':
+            return ChatGroq(model='deepseek-r1-distill-llama-70b',
+                            temperature=temperature)
+        
     else:
         st.error("Wrong model choosen!")
         st.stop()
-
-#llm2 = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.5)
-#llm2 = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
-#llm2 = ChatGoogleGenerativeAI(model="gemini-2.0-flash-thinking-exp-01-21", temperature=0)
-#llm  = ChatGroq(model="llama3-groq-8b-8192-tool-use-preview", temperature=0)
-#llm  = ChatGroq(model="llama3-8b-8192", temperature=0)
-#llm2  = ChatGroq(model="gemma2-9b-it", temperature=0.5)
-#llm3  = ChatGroq(model="deepseek-r1-distill-qwen-32b", temperature=0.6)
-#llm  = ChatGroq(model="gemma2-9b-it", temperature=0)
-#llm_t = llm.bind_tools(tools)
 
 
 # This is for questions that are not related to CAMELS

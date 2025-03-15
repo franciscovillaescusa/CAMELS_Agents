@@ -47,6 +47,7 @@ class SeSe(TypedDict):
 class LLM(TypedDict):
     model: str
     temperature: float
+    key: str
 
 # class containing the state of the graph
 class GraphState(TypedDict):
