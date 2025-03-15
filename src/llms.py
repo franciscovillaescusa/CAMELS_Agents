@@ -1,7 +1,8 @@
-from langchain_groq import ChatGroq
 from langchain_google_vertexai import VertexAIEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
+from langchain_anthropic import ChatAnthropic
+from langchain_groq import ChatGroq
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.graph.message import add_messages
@@ -43,12 +44,21 @@ def get_llm(state: GraphState):
         return ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=temperature)
 
     # ChatGPT
-    elif model=='ChatGPT-4o':
+    elif model in ['ChatGPT-4o', 'ChatGPT-3o-mini-high']:
         os.environ["OPENAI_API_KEY"] = API_KEY
-        return ChatOpenAI(model="gpt-4o", temperature=temperature)
+        if model=="ChatGPT-4o":
+            return ChatOpenAI(model="gpt-4o", temperature=temperature)
+        elif model=='ChatGPT-3o-mini-high':
+            return ChatOpenAI(model="o3-mini-high")
+
+    # Claude Sonnet 3.7
+    elif model=="Sonnet-3.7":
+        os.environ["ANTHROPIC_API_KEY"] = API_KEY
+        return ChatAnthropic(model="claude-3-7-sonnet-20250219", temperature=temperature)
 
     # LLama3, Gemma2 & DeepSeek-R1
-    elif model in ['Llama3-70b', 'Gemma2-9b', "DeepSeek-R1-Llama70b"]:
+    elif model in ['Llama3-70b', 'Gemma2-9b',
+                   "DeepSeek-R1-Llama70b", "DeepSeek-R1-Qwen32b"]:
         os.environ["GROQ_API_KEY"] = API_KEY
 
         if   model=='Llama3-70b':
@@ -58,6 +68,8 @@ def get_llm(state: GraphState):
         elif model=='DeepSeek-R1-Llama70b':
             return ChatGroq(model='deepseek-r1-distill-llama-70b',
                             temperature=temperature)
+        elif model=="DeepSeek-R1-Qwen32b":
+            return ChatGroq(model="deepseek-r1-distill-qwen-32b", temperature=temperature)
         
     else:
         st.error("Wrong model choosen!")

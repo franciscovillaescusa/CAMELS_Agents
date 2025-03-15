@@ -46,7 +46,8 @@ st.sidebar.image('images/logo.png')
 
 selected_llm = st.sidebar.selectbox(
     "Choose the LLM:",
-    ["ChatGPT-4o", "Llama3-70b", "Gemini-2-flash", "Gemma2-9b", "DeepSeek-R1-Llama70b"],
+    ["ChatGPT-4o", "Llama3-70b", "Gemini-2-flash", "Gemma2-9b", "DeepSeek-R1-Llama70b",
+     "DeepSeek-R1-Qwen32b", "Sonnet-3.7", "ChatGPT-3o-mini-high"],
     index=2, key="llm_select_key")
 st.session_state["selected_llm"] = selected_llm
 
