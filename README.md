@@ -7,7 +7,12 @@ AI agents to help working with [CAMELS](https://camels.readthedocs.io) (Cosmolog
 
 ### Requirements:
 - python 3.10 or above. Needed to properly use the UI.
-- An API for the LLM model. CAMELS Agents supports Gemini, Gemma2, ChatGPT-4o, Llama3, and DeepSeek-R1.
+- An API for the LLM model. CAMELS Agents supports:
+  - Gemini-2-flash
+  - Gemma2-9b
+  - ChatGPT-4o
+  - Llama3-70b
+  - DeepSeek-R1-distill-llama-70b.
 - A Vertex AI setup file for the embeddings.
 - A [langchain](https://www.langchain.com) API key (optional). 
 - A [semantic scholar](https://www.semanticscholar.org) API key (optional).
