@@ -1,7 +1,13 @@
 from langchain_community.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+import os,sys
+try:
+    import pysqlite3
+    sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+except ImportError:
+    print("pysqlite3 not available.  App may fail.") 
+    pass
 from langchain_chroma import Chroma
-import os
 
 from src.parameters import GraphState, initial_graph_state
 from src.llms import get_embeddings

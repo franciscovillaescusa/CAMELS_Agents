@@ -1,6 +1,5 @@
 from langchain_core.runnables import RunnableConfig
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
-from langchain_chroma import Chroma
 from langgraph.graph.message import add_messages
 import streamlit as st
 import os
