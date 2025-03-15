@@ -12,65 +12,34 @@ st.set_page_config(
     menu_items=None                  # Custom options for the app menu
 )
 
-# Initialize session state
-if "messages" not in st.session_state:
-    st.session_state["messages"] = []
-if "state" not in st.session_state:
-    st.session_state["state"] = {}  
-if "task_reset_key" not in st.session_state:
-    st.session_state["task_reset_key"] = "task_0"  
-if "reset_count" not in st.session_state:
-    st.session_state["reset_count"] = 0  
-if "memory" not in st.session_state["state"]:
-    st.session_state["state"]["memory"] = []
-if "option" not in st.session_state:
-    st.session_state["option"] = None
-if "selected_llm" not in st.session_state:
-    st.session_state["selected_llm"] = None
-if "temperature" not in st.session_state:
-    st.session_state["temperature"] = None
-if "LLM_API_KEYS" not in st.session_state:
-    st.session_state["LLM_API_KEYS"] = {}
+# --- Initialize Session State ---
+def init_session_state():
+    defaults = {"messages": [],
+                "state": {"memory": []},
+                "task_reset_key": "task_0",
+                "reset_count": 0,
+                "option": None,
+                "selected_llm": None,
+                "temperature": None,
+                "LLM_API_KEYS": {}}
+    for key, value in defaults.items():
+        if key not in st.session_state:
+            st.session_state[key] = value
+init_session_state()
 
-
-# Custom CSS for sidebar and main content adjustments
-st.markdown(
-    """
+# --- Custom CSS Styling ---
+st.markdown("""
     <style>
-        /* Move sidebar elements up 
-        section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"] {
-            padding-top: 0px;
-            margin-top: -50px; /* Adjust this value to move it further up */
-        }*/
-
-        /* Adjust sidebar width */
-        [data-testid="stSidebar"] {
-            width: 300px !important;  
-        }
-
-        /* Move main content closer to the top 
-        .block-container {
-            padding-top: 0rem !important;  /* Reduce top space */
-            margin-top: 30px;  /* Move content further up */
-        } */
-
-        /* Ensure text wraps and does not cause horizontal scrolling */
-        div[data-testid="stTextArea"] textarea {
-            white-space: pre-wrap !important;  /* Ensures wrapping */
-            word-wrap: break-word !important; /* Forces breaking long words */
-            overflow-wrap: break-word !important;
-            width: 100% !important; /* Makes sure it stays within window width */
-        }
-        /* Chat messages - prevent horizontal scrolling */
-        .stChatMessage {
+        [data-testid="stSidebar"] { width: 300px !important; }
+        div[data-testid="stTextArea"] textarea, .stChatMessage {
             white-space: pre-wrap !important;
             word-wrap: break-word !important;
             overflow-wrap: break-word !important;
+            width: 100% !important;
         }
     </style>
-    """,
-    unsafe_allow_html=True
-)
+    """, unsafe_allow_html=True)
+
 
 ##### Sidebar UI #####
 st.sidebar.image('images/logo.png')
@@ -168,7 +137,6 @@ if reset:
 ##########################
 
 # Main UI 
-#st.title("CAMELS Agent")
 
 # print messages
 if print_memory:
@@ -208,9 +176,10 @@ if submit_button:
         
     # Store that the user has submitted, to control UI rendering
     st.session_state["submitted"] = True
-    st.rerun()  # Refresh UI to display the generated text
+    st.rerun() 
 
-if st.session_state.get("submitted", False):  # Only show content if submitted
+# Only show content if submitted
+if st.session_state.get("submitted", False):  
         
     # CAMELS section
     if option==1:
@@ -252,7 +221,7 @@ if st.session_state.get("submitted", False):  # Only show content if submitted
                 
             # Reset selection before rerun
             st.session_state.pop("satisfied", None)
-            st.rerun()  # Refresh UI to display new messages
+            st.rerun()  
             
     # other options
     if option in [2,3,4,5,6]:
@@ -277,5 +246,5 @@ if st.session_state.get("submitted", False):  # Only show content if submitted
                                        "sese":{"limit": 10},
                                        "query":feedback}, config)
                 st.session_state["state"] = GraphState(**result)
-                st.rerun()  # Refresh UI to display new messages
+                st.rerun()  
 
