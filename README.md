@@ -10,6 +10,8 @@ AI agents to help working with [CAMELS](https://camels.readthedocs.io) (Cosmolog
 - Coding. E.g. write code to analyze any aspect of CAMELS snapshots, galaxy catalogs...etc.
 - A standard LLM for outside CAMELS questions.
 
+The easiest way to use CAMELS Agents is via the associated [website](https://camels-agents.streamlit.app/). You will only need the LLM API keys to use the agents.
+
 # Installation
 
 ### Requirements:
@@ -46,6 +48,9 @@ GOOGLE_API_KEY=your_google_api_key
 # OpenAI parameters (needed if using ChatGPT)
 #OPENAI_API_KEY=your_openai_api_key
 
+# Anthropic parameters (needed if using Sonnet-3.7)
+#ANTHROPIC_API_KEY=your_anthropic_api_key
+
 # Groq parameters (needed if using Llama3, Gemma2, or DeepSeek-R1)
 #GROQ_API_KEY=your_groq_api_key
 
@@ -67,6 +72,7 @@ If, for example, you are going to use ChatGPT, comment the gemini parameters, co
 - **Gemini**. Get the API key from the [Gemini API key](https://ai.google.dev/gemini-api/docs/api-key).
 - **OpenAI**. Get the API key from the [openai website](https://platform.openai.com).
 - **GROQ**. Get the API key from the [Groq website](https://console.groq.com/).
+- **Anthropic**. Get the API key from [Anthropic website](https://console.anthropic.com/settings/keys)
 
 **Vertex AI**. CAMELS agents use an embedding model (text-embedding-005) for RAG tasks. To enable the google embeddings, follow these instructions:
 
