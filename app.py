@@ -47,7 +47,7 @@ st.sidebar.image('images/logo.png')
 selected_llm = st.sidebar.selectbox(
     "Choose the LLM:",
     ["ChatGPT-4o",
-     "ChatGPT-3o-mini",
+     "3o-mini",
      "Gemini-2-flash",
      "Sonnet-3.7",
      "DeepSeek-R1-Llama70b",

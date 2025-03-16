@@ -1,18 +1,28 @@
 ![CAMELS_agents](images/logo3.png)
 
 
-AI agents to help working with [CAMELS](https://camels.readthedocs.io) (Cosmology and Astrophysics with MachinE Learning Simulations) data.
+AI agents to help working with [CAMELS](https://camels.readthedocs.io) (Cosmology and Astrophysics with MachinE Learning Simulations) data. CAMELS Agent can help with:
+
+- Writing your CAMELS section if you are using CAMELS data for a paper
+- Ask questions about the CAMELS documentation
+- Search for CAMELS papers. E.g. What CAMELS papers have studied the impact of AGN feedback on the Lya forest
+- Search general papers on the arXiv.
+- Coding.
+- A standard LLM for outside CAMELS questions.
 
 # Installation
 
 ### Requirements:
 - python 3.10 or above. Needed to properly use the UI.
 - An API for the LLM model. CAMELS Agents supports:
+  - ChatGPT-4o
+  - ChatGPT-3o-mini
   - Gemini-2-flash
   - Gemma2-9b
-  - ChatGPT-4o
+  - Sonnet-3.7
   - Llama3-70b
   - DeepSeek-R1-distill-llama-70b
+  - DeepSeek-R1-distill-qwen-32b	
 - A Vertex AI setup file for the embeddings.
 - A [langchain](https://www.langchain.com) API key (optional). 
 - A [semantic scholar](https://www.semanticscholar.org) API key (optional).

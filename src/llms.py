@@ -44,11 +44,11 @@ def get_llm(state: GraphState):
         return ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=temperature)
 
     # ChatGPT
-    elif model in ['ChatGPT-4o', 'ChatGPT-3o-mini']:
+    elif model in ['ChatGPT-4o', '3o-mini']:
         os.environ["OPENAI_API_KEY"] = API_KEY
         if model=="ChatGPT-4o":
             return ChatOpenAI(model="gpt-4o", temperature=temperature)
-        elif model=='ChatGPT-3o-mini':
+        elif model=='3o-mini':
             return ChatOpenAI(model="o3-mini")
 
     # Claude Sonnet 3.7
