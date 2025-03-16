@@ -1,4 +1,4 @@
-<img src="images/logo.png" alt="CAMELS Agents" width="400" style="display: block; margin: auto;">
+![CAMELS_agents](images/logo3.png)
 
 
 AI agents to help working with [CAMELS](https://camels.readthedocs.io) (Cosmology and Astrophysics with MachinE Learning Simulations) data.
