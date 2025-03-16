@@ -7,7 +7,7 @@ AI agents to help working with [CAMELS](https://camels.readthedocs.io) (Cosmolog
 - Ask questions about the CAMELS documentation
 - Search for CAMELS papers. E.g. What CAMELS papers have studied the impact of AGN feedback on the Lya forest
 - Search general papers on the arXiv.
-- Coding.
+- Coding. E.g. write code to analyze any aspect of CAMELS snapshots, galaxy catalogs...etc.
 - A standard LLM for outside CAMELS questions.
 
 # Installation
@@ -111,7 +111,7 @@ The agents are able to identify CAMELS papers for a given query; for instance to
 
 The guidelines to use CAMELS data are in `Input_Text/CAMELS_coding.txt`. Add or modify that file for your needs. Take into account that the longer the file, the larger the context and the more expensive the call to the LLM will be.
 
-# Team:
+# Team
 
 - Francisco Villaescusa-Navarro (Flatiron)
 - Boris Bolliet (Cambridge)
