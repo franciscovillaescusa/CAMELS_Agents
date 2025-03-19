@@ -180,12 +180,14 @@ if "submitted" not in st.session_state or not st.session_state["submitted"]:
 
     ## Tasks:
 
-    - **Write CAMELS section**. This write a CAMELS data section for a scientific paper describing the data. You may want to use a relatively high temperature for this task.
-    - **CAMELS documentation**. This implements RAG with the CAMELS documentation. If you have questions about CAMELS that may be in the documentation, you can start a conversation with the chatbot to get your answer.
-    - **CAMELS papers**. This implements RAG with CAMELS papers. Useful to find CAMELS papers about a given topic.
-    - **General literature**. This is just a call to semantic scholar. Good to explore papers on the arXiv given a query.
-    - **Coding**. This option allows you to write code tailored for the CAMELS simulations. In its content it knows about CAMELS data format, structure, and types.
-    - **Standard LLM**. This option gives you access to the LLM model you have chosen. Any memory accomulated from other sections will be passed as a context to the LLM. Useful for perform non-specific CAMELS tasks.
+    | Task                    | Description |
+    |-------------------------|-------------|
+    | **Write CAMELS section** | Writes a CAMELS data section for a scientific paper describing the data. You may want to use a relatively high temperature for this task. |
+    | **CAMELS documentation** | Implements RAG with the CAMELS documentation. If you have questions about CAMELS that may be in the documentation, you can start a conversation with the chatbot to get your answer. |
+    | **CAMELS papers**       | Implements RAG with CAMELS papers. Useful to find CAMELS papers about a given topic. |
+    | **General literature**  | Calls Semantic Scholar to explore papers on the arXiv given a query. |
+    | **Coding**             | Allows you to write code tailored for the CAMELS simulations. Knows about CAMELS data format, structure, and types. |
+    | **Standard LLM**       | Gives access to the selected LLM. Any accumulated memory from other sections will be passed as context to the LLM. Useful for performing non-specific CAMELS tasks. |
 
     ## Memory:
 
@@ -198,6 +200,10 @@ if "submitted" not in st.session_state or not st.session_state["submitted"]:
     - Pablo Villanueva-Domingo (Barcelona)
     - ChangHoon Hahn (Arizona)
     - The [CAMELS](https://www.camel-simulations.org) team
+
+    ## Questions & problems:
+
+    If our agents cannot solve your question or you have problems, feel free to reach out to us at camel.simulations@gmail.com
     
     """)
 
