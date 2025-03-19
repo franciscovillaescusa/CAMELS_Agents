@@ -197,6 +197,7 @@ if "submitted" not in st.session_state or not st.session_state["submitted"]:
     - Boris Bolliet (Cambridge)
     - Pablo Villanueva-Domingo (Barcelona)
     - ChangHoon Hahn (Arizona)
+    - The [CAMELS](https://www.camel-simulations.org) team
     
     """)
 
