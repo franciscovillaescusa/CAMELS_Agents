@@ -147,6 +147,60 @@ if reset:
 
 # Main UI 
 
+# --- Show Instructions Only Before Submission ---
+if "submitted" not in st.session_state or not st.session_state["submitted"]:
+    st.markdown("""
+    # Welcome to CAMELS Agents! 🐪 🤖
+
+    ## Instructions:
+    1. Select the LLM model you want
+    2. Introduce your API key
+    3. Choose the temperature of the model
+    4. Select the agent task
+    5. Click the `Select task` button
+
+    ## LLMs:
+
+    CAMELS Agents support different LLM models.
+
+    | Model                  | Required API Key | Instructions to get API Key | 
+    |------------------------|-----------------|---------------------------------| 
+    | **Gemini-2-flash**     | Gemini API      | Go to this [website](https://ai.google.dev/gemini-api/docs/api-key) and get your API key there. |
+    | **ChatGPT-4o**        | OpenAI API      | Go to this [website](https://platform.openai.com/docs/overview). On the top-right, click on settings, and then get your API key there. Take a look at this [page](https://medium.com/@lorenzozar/how-to-get-your-own-openai-api-key-f4d44e60c327) if you encounter problems. | 
+    | **ChatGPT-3o-mini**   | OpenAI API      | Go to this [website](https://platform.openai.com/docs/overview). On the top-right, click on settings, and then get your API key there. Take a look at this [page](https://medium.com/@lorenzozar/how-to-get-your-own-openai-api-key-f4d44e60c327) if you encounter problems. | 
+    | **Sonnet-3.7**        | Anthropic API   | Go to this [website](https://console.anthropic.com/settings/keys) and get your API key there. |
+    | **DeepSeek-R1-Llama70b** | Groq API    | Go to this [website](https://console.groq.com/keys) and get your API key there. |
+    | **DeepSeek-R1-Qwen32b**  | Groq API    | Go to this [website](https://console.groq.com/keys) and get your API key there. |
+    | **Llama3-70b**        | Groq API        | Go to this [website](https://console.groq.com/keys) and get your API key there. |
+    | **Gemma2-9b**         | Groq API        | Go to this [website](https://console.groq.com/keys) and get your API key there. |
+    
+    ## Temperature:
+
+    The temperature of the LLM controls the "randomness" of the output. For creative tasks, e.g. generating ideas or rewriting text, you may want to use a high temperature. For tasks where you want reproducibility, you want to set the temperature to low values. For instance, for many LLM and coding, it is better to set the temperature to 0.
+
+    ## Tasks:
+
+    - **Write CAMELS section**. This write a CAMELS data section for a scientific paper describing the data. You may want to use a relatively high temperature for this task.
+    - **CAMELS documentation**. This implements RAG with the CAMELS documentation. If you have questions about CAMELS that may be in the documentation, you can start a conversation with the chatbot to get your answer.
+    - **CAMELS papers**. This implements RAG with CAMELS papers. Useful to find CAMELS papers about a given topic.
+    - **General literature**. This is just a call to semantic scholar. Good to explore papers on the arXiv given a query.
+    - **Coding**. This option allows you to write code tailored for the CAMELS simulations. In its content it knows about CAMELS data format, structure, and types.
+    - **Standard LLM**. This option gives you access to the LLM model you have chosen. Any memory accomulated from other sections will be passed as a context to the LLM. Useful for perform non-specific CAMELS tasks.
+
+    ## Memory:
+
+    Any tokens in memory will be passed to the LLM as context. Take into account that some models have a relatively small context size of ~8000 tokens (e.g. Gemma2 and Llama3). Also take into account that the larger the context window, the more expensive the call to the LLM. You can see your memory by clicking the "Print memory" button. To clear the memory, click the "Clear memory" button.
+
+    ## Team:
+
+    - Francisco Villaescusa-Navarro (Flatiron)
+    - Boris Bolliet (Cambridge)
+    - Pablo Villanueva-Domingo (Barcelona)
+    - ChangHoon Hahn (Arizona)
+    
+    """)
+
+
 # print messages
 if print_memory:
     memory_text = "\n".join(map(str, st.session_state["state"]["memory"]))
