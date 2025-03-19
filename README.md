@@ -121,3 +121,5 @@ The guidelines to use CAMELS data are in `Input_Text/CAMELS_coding.txt`. Add or 
 
 - Francisco Villaescusa-Navarro (Flatiron)
 - Boris Bolliet (Cambridge)
+- Pablo Villanueva-Domingo (Barcelona)
+- ChangHoon Hahn (Arizona)
