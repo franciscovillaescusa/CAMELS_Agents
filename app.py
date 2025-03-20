@@ -40,6 +40,18 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+GA_TRACKING_ID = 'G-XRRM15GMS9'
+GA_SCRIPT = f"""
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_TRACKING_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+  gtag('config', '{GA_TRACKING_ID}');
+</script>
+"""
+st.markdown(f'<script>{GA_SCRIPT}</script>', unsafe_allow_html=True)
 
 ##### Sidebar UI #####
 st.sidebar.image('images/logo.png')
