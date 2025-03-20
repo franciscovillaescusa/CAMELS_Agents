@@ -93,8 +93,8 @@ else:
 
     
 st.session_state["temperature"] = st.sidebar.slider("LLM temperature:",
-                                                    min_value=0.0, max_value=2.0,
-                                                    value=0.5, step=0.1)
+                                                    min_value=0.0, max_value=1.0,
+                                                    value=0.5, step=0.05)
 
 # Sidebar UI with dynamic key for forcing reset
 selected_task = st.sidebar.radio("Select the agent task:",
