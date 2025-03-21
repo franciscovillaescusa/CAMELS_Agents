@@ -13,20 +13,23 @@ st.set_page_config(
     menu_items=None                  # Custom options for the app menu
 )
 
-GA_TRACKING_ID = 'G-XRRM15GMS9'
-components.html(
-    f"""
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={GA_TRACKING_ID}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){{dataLayer.push(arguments);}}
-      gtag('js', new Date());
-      gtag('config', '{GA_TRACKING_ID}');
-    </script>
-    """,
-    height=0,  # No visible content needed
-)
+GA="""
+<html>
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XRRM15GMS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XRRM15GMS9');
+</script>
+  </head>
+  <body></body>
+</html>"""
+
+components.html(GA, height=0)
 
 
 # --- Initialize Session State ---
