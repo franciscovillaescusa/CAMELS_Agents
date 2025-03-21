@@ -2,6 +2,7 @@ import streamlit as st
 from src.main import graph
 from src.parameters import config, GraphState
 import tiktoken
+import streamlit.components.v1 as components
     
 # streamlit configuration
 st.set_page_config(
@@ -11,6 +12,22 @@ st.set_page_config(
     initial_sidebar_state="auto",    # Sidebar behavior
     menu_items=None                  # Custom options for the app menu
 )
+
+GA_TRACKING_ID = 'G-XRRM15GMS9'
+components.html(
+    f"""
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={GA_TRACKING_ID}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+      gtag('config', '{GA_TRACKING_ID}');
+    </script>
+    """,
+    height=0,  # No visible content needed
+)
+
 
 # --- Initialize Session State ---
 def init_session_state():
@@ -39,19 +56,6 @@ st.markdown("""
         }
     </style>
     """, unsafe_allow_html=True)
-
-GA_TRACKING_ID = 'G-XRRM15GMS9'
-GA_SCRIPT = f"""
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={GA_TRACKING_ID}"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){{dataLayer.push(arguments);}}
-  gtag('js', new Date());
-  gtag('config', '{GA_TRACKING_ID}');
-</script>
-"""
-st.markdown(f'<script>{GA_SCRIPT}</script>', unsafe_allow_html=True)
 
 ##### Sidebar UI #####
 st.sidebar.image('images/logo.png')
