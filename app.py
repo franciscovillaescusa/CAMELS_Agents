@@ -324,4 +324,4 @@ if st.session_state.get("submitted", False):
                 st.rerun()  
 
 
-components.iframe("https://github.com/franciscovillaescusa/CAMELS_Agents/blob/master/other/GA.html", height=0, scrolling=False)
+components.iframe("https://raw.githubusercontent.com/franciscovillaescusa/CAMELS_Agents/refs/heads/master/other/GA.html", height=0, scrolling=False)
