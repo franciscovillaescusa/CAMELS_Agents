@@ -50,11 +50,15 @@ selected_llm = st.sidebar.selectbox(
     ["ChatGPT-4o",
      "3o-mini",
      "Gemini-2-flash",
+     "Gemini-2-pro",
      "Sonnet-3.7",
+     "DeepSeek-V3",
+     "DeepSeek-R1",
      "DeepSeek-R1-Llama70b",
      "DeepSeek-R1-Qwen32b",     
      "Llama3-70b",
-     "Gemma2-9b"],
+     "Gemma2-9b",
+     "Mistral-saba-24b"],
     index=2, key="llm_select_key")
 st.session_state["selected_llm"] = selected_llm
 
@@ -167,13 +171,17 @@ if "submitted" not in st.session_state or not st.session_state["submitted"]:
     | Model                  | Required API Key | Instructions to get API Key | 
     |------------------------|-----------------|---------------------------------| 
     | **Gemini-2-flash**     | Gemini API      | Go to this [website](https://ai.google.dev/gemini-api/docs/api-key) and get your API key there. |
+    | **Gemini-2-pro**     | Gemini API      | Go to this [website](https://ai.google.dev/gemini-api/docs/api-key) and get your API key there. |
     | **ChatGPT-4o**        | OpenAI API      | Go to this [website](https://platform.openai.com/docs/overview). On the top-right, click on settings, and then get your API key there. Take a look at this [page](https://medium.com/@lorenzozar/how-to-get-your-own-openai-api-key-f4d44e60c327) if you encounter problems. | 
     | **ChatGPT-3o-mini**   | OpenAI API      | Go to this [website](https://platform.openai.com/docs/overview). On the top-right, click on settings, and then get your API key there. Take a look at this [page](https://medium.com/@lorenzozar/how-to-get-your-own-openai-api-key-f4d44e60c327) if you encounter problems. | 
     | **Sonnet-3.7**        | Anthropic API   | Go to this [website](https://console.anthropic.com/settings/keys) and get your API key there. |
+    | **DeepSeek-V3**       | DeepSeek API | Go to this [website](https://platform.deepseek.com/api_keys) and get your API key there. | 
+    | **DeepSeek-R1**       | DeepSeek API | Go to this [website](https://platform.deepseek.com/api_keys) and get your API key there. | 
     | **DeepSeek-R1-Llama70b** | Groq API    | Go to this [website](https://console.groq.com/keys) and get your API key there. |
     | **DeepSeek-R1-Qwen32b**  | Groq API    | Go to this [website](https://console.groq.com/keys) and get your API key there. |
     | **Llama3-70b**        | Groq API        | Go to this [website](https://console.groq.com/keys) and get your API key there. |
     | **Gemma2-9b**         | Groq API        | Go to this [website](https://console.groq.com/keys) and get your API key there. |
+    | **Mistral-saba-24b**         | Groq API        | Go to this [website](https://console.groq.com/keys) and get your API key there. |
     
     ## Temperature:
 
@@ -208,7 +216,7 @@ if "submitted" not in st.session_state or not st.session_state["submitted"]:
 
     ## Disclaimer
 
-    Please be aware that LLMs make mistakes and hallunicate. Always validate the accuracy of the outcome of the agents. Check if there are journal regulations about using LLMs for text in scientific papers.
+    Please be aware that LLMs hallucinate and make mistakes. Always validate the accuracy of the outcome of the agents. Check if there are journal regulations about using LLMs for text in scientific papers.
     
     """)
 

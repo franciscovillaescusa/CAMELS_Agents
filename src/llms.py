@@ -3,6 +3,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
 from langchain_groq import ChatGroq
+from langchain_deepseek import ChatDeepSeek
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage, AIMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.graph.message import add_messages
@@ -38,12 +39,17 @@ def get_llm(state: GraphState):
     temperature = state['llm']['temperature']
     API_KEY     = state['llm']['key']
 
-    # Gemini
-    if   model=='Gemini-2-flash':
+    # Google
+    if   model in ['Gemini-2-flash', 'Gemini-2-pro']:
         os.environ["GOOGLE_API_KEY"] = API_KEY
-        return ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=temperature)
+        if model=='Gemini-2-flash':
+            return ChatGoogleGenerativeAI(model="gemini-2.0-flash",
+                                          temperature=temperature)
+        elif model=='Gemini-2-pro':
+            return ChatGoogleGenerativeAI(model="gemini-2.0-pro-exp-02-05",
+                                          temperature=temperature)
 
-    # ChatGPT
+    # OpenAI
     elif model in ['ChatGPT-4o', '3o-mini']:
         os.environ["OPENAI_API_KEY"] = API_KEY
         if model=="ChatGPT-4o":
@@ -51,13 +57,21 @@ def get_llm(state: GraphState):
         elif model=='3o-mini':
             return ChatOpenAI(model="o3-mini")
 
-    # Claude Sonnet 3.7
+    # Anthropic
     elif model=="Sonnet-3.7":
         os.environ["ANTHROPIC_API_KEY"] = API_KEY
         return ChatAnthropic(model="claude-3-7-sonnet-20250219", temperature=temperature)
 
-    # LLama3, Gemma2 & DeepSeek-R1
-    elif model in ['Llama3-70b', 'Gemma2-9b',
+    # DeepSeek
+    elif model in ['DeepSeek-V3', 'DeepSeek-R1']:
+        os.environ["DEEPSEEK_API_KEY"] = API_KEY
+        if model=='DeepSeek-V3':
+            return ChatDeepSeek(model="deepseek-chat", temperature=temperature)
+        elif model=='DeepSeek-R1':
+            return ChatDeepSeek(model="deepseek-reasoner", temperature=temperature)
+
+    # Groq
+    elif model in ['Llama3-70b', 'Gemma2-9b', "Mistral-saba-24b",
                    "DeepSeek-R1-Llama70b", "DeepSeek-R1-Qwen32b"]:
         os.environ["GROQ_API_KEY"] = API_KEY
 
@@ -70,6 +84,9 @@ def get_llm(state: GraphState):
                             temperature=temperature)
         elif model=="DeepSeek-R1-Qwen32b":
             return ChatGroq(model="deepseek-r1-distill-qwen-32b", temperature=temperature)
+        elif model=="Mistral-saba-24b":
+            return ChatGroq(model="mistral-saba-24b", temperature=temperature)
+            
         
     else:
         st.error("Wrong model choosen!")

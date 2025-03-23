@@ -8,6 +8,7 @@ langchain-google-vertexai
 langchain-google-genai
 langchain-openai
 langchain-anthropic
+langchain-deepseek
 langgraph
 langgraph-checkpoint-sqlite
 pydantic
