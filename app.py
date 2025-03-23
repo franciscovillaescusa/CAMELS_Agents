@@ -13,24 +13,6 @@ st.set_page_config(
     menu_items=None                  # Custom options for the app menu
 )
 
-GA="""
-<html>
-<head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XRRM15GMS9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-XRRM15GMS9');
-</script>
-  </head>
-  <body></body>
-</html>"""
-
-components.html(GA, height=0)
-
 
 # --- Initialize Session State ---
 def init_session_state():
@@ -223,6 +205,10 @@ if "submitted" not in st.session_state or not st.session_state["submitted"]:
     ## Questions & problems:
 
     If our agents cannot solve your question or you have problems, feel free to reach out to us at camel.simulations@gmail.com
+
+    ## Disclaimer
+
+    Please be aware that LLMs make mistakes and hallunicate. Always validate the accuracy of the outcome of the agents. Check if there are journal regulations about using LLMs for text in scientific papers.
     
     """)
 
@@ -336,4 +322,6 @@ if st.session_state.get("submitted", False):
                                        "query":feedback}, config)
                 st.session_state["state"] = GraphState(**result)
                 st.rerun()  
+
+
 
