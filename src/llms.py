@@ -40,13 +40,16 @@ def get_llm(state: GraphState):
     API_KEY     = state['llm']['key']
 
     # Google
-    if   model in ['Gemini-2-flash', 'Gemini-2-pro']:
+    if   model in ['Gemini-2-flash', 'Gemini-2-pro', 'Gemini-2.5-pro']:
         os.environ["GOOGLE_API_KEY"] = API_KEY
         if model=='Gemini-2-flash':
             return ChatGoogleGenerativeAI(model="gemini-2.0-flash",
                                           temperature=temperature)
         elif model=='Gemini-2-pro':
             return ChatGoogleGenerativeAI(model="gemini-2.0-pro-exp-02-05",
+                                          temperature=temperature)
+        elif model=='Gemini-2.5-pro':
+            return ChatGoogleGenerativeAI(model="gemini-2.5-pro-exp-03-25",
                                           temperature=temperature)
 
     # OpenAI

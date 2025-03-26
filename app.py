@@ -51,6 +51,7 @@ selected_llm = st.sidebar.selectbox(
      "3o-mini",
      "Gemini-2-flash",
      "Gemini-2-pro",
+     "Gemini-2.5-pro",
      "Sonnet-3.7",
      "DeepSeek-V3",
      "DeepSeek-R1",
@@ -172,6 +173,7 @@ if "submitted" not in st.session_state or not st.session_state["submitted"]:
     |------------------------|-----------------|---------------------------------| 
     | **Gemini-2-flash**     | Gemini API      | Go to this [website](https://ai.google.dev/gemini-api/docs/api-key) and get your API key there. |
     | **Gemini-2-pro**     | Gemini API      | Go to this [website](https://ai.google.dev/gemini-api/docs/api-key) and get your API key there. |
+    | **Gemini-2,5-pro**   | Gemini API      | Go to this [website](https://ai.google.dev/gemini-api/docs/api-key) and get your API key there. |
     | **ChatGPT-4o**        | OpenAI API      | Go to this [website](https://platform.openai.com/docs/overview). On the top-right, click on settings, and then get your API key there. Take a look at this [page](https://medium.com/@lorenzozar/how-to-get-your-own-openai-api-key-f4d44e60c327) if you encounter problems. | 
     | **ChatGPT-3o-mini**   | OpenAI API      | Go to this [website](https://platform.openai.com/docs/overview). On the top-right, click on settings, and then get your API key there. Take a look at this [page](https://medium.com/@lorenzozar/how-to-get-your-own-openai-api-key-f4d44e60c327) if you encounter problems. | 
     | **Sonnet-3.7**        | Anthropic API   | Go to this [website](https://console.anthropic.com/settings/keys) and get your API key there. |
